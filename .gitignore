@@ -1,0 +1,18 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock.bak
+# Sinh bởi `flutter create` trong CI
+/android/
+/ios/
+.metadata
+# Python
+__pycache__/
+*.pyc
+# IDE
+.idea/
+.vscode/
+*.iml

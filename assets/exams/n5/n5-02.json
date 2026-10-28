@@ -1,0 +1,1495 @@
+{
+ "id": "n5-02",
+ "level": "N5",
+ "title": "Đề chuẩn số 02",
+ "titleJa": "模擬試験 第2回",
+ "sections": [
+  {
+   "id": "moji",
+   "titleJa": "言語知識（文字・語彙）",
+   "titleVi": "Từ vựng – Chữ Hán",
+   "minutes": 20,
+   "scoreGroup": "language",
+   "mondai": [
+    {
+     "id": "moji-1",
+     "label": "もんだい1",
+     "type": "kanji_yomi",
+     "titleJa": "漢字読み",
+     "titleVi": "Đọc Kanji",
+     "instructionJa": "＿＿の ことばは ひらがなで どう かきますか。1・2・3・4から いちばん いい ものを ひとつ えらんで ください。",
+     "instructionVi": "Từ gạch chân được đọc (viết bằng hiragana) thế nào? Chọn đáp án đúng nhất.",
+     "questions": [
+      {
+       "id": "moji-1-1",
+       "no": 1,
+       "prompt": "つぎの かどを {右}に まがって ください。",
+       "explanation": "右 = みぎ (bên phải). ひだり=左 (trái), まえ=前 (trước), うしろ=後ろ (sau). Câu: Hãy rẽ phải ở góc tiếp theo.",
+       "options": [
+        "まえ",
+        "うしろ",
+        "ひだり",
+        "みぎ"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "moji-1-2",
+       "no": 2,
+       "prompt": "{今月}は とても いそがしいです。",
+       "explanation": "今月 = こんげつ (tháng này). Tương tự 先月 せんげつ, 来月 らいげつ.",
+       "options": [
+        "いまげつ",
+        "こんつき",
+        "こんがつ",
+        "こんげつ"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "moji-1-3",
+       "no": 3,
+       "prompt": "こうえんに {女}の 子が います。",
+       "explanation": "女 = おんな (nữ). 女の子 = bé gái. おとこ=男 (nam).",
+       "options": [
+        "おとこ",
+        "こども",
+        "おんな",
+        "おや"
+       ],
+       "answer": 2
+      },
+      {
+       "id": "moji-1-4",
+       "no": 4,
+       "prompt": "この 川は とても {長い}です。",
+       "explanation": "長い = ながい (dài). ふかい=深い (sâu), ひろい=広い (rộng). Câu: Con sông này rất dài.",
+       "options": [
+        "ふかい",
+        "ひろい",
+        "たかい",
+        "ながい"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "moji-1-5",
+       "no": 5,
+       "prompt": "{午後} 3時に 会いましょう。",
+       "explanation": "午後 = ごご (buổi chiều, p.m.). 午前 = ごぜん (buổi sáng, a.m.).",
+       "options": [
+        "こご",
+        "ごご",
+        "ごこう",
+        "ごぜん"
+       ],
+       "answer": 1
+      },
+      {
+       "id": "moji-1-6",
+       "no": 6,
+       "prompt": "{外国}の 友だちが たくさん います。",
+       "explanation": "外国 = がいこく (nước ngoài). 外 đọc là がい trong từ ghép, 国 đọc là こく.",
+       "options": [
+        "そとこく",
+        "かいこく",
+        "がいごく",
+        "がいこく"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "moji-1-7",
+       "no": 7,
+       "prompt": "えきまで {車}で 10分です。",
+       "explanation": "車 = くるま (xe ô tô). でんしゃ=電車 (tàu điện), じてんしゃ=自転車 (xe đạp).",
+       "options": [
+        "くるま",
+        "じてんしゃ",
+        "でんしゃ",
+        "くる"
+       ],
+       "answer": 0
+      }
+     ]
+    },
+    {
+     "id": "moji-2",
+     "label": "もんだい2",
+     "type": "hyouki",
+     "titleJa": "表記",
+     "titleVi": "Cách viết",
+     "instructionJa": "＿＿の ことばは どう かきますか。1・2・3・4から いちばん いい ものを ひとつ えらんで ください。",
+     "instructionVi": "Từ gạch chân được viết (bằng Kanji/Katakana) thế nào? Chọn đáp án đúng nhất.",
+     "questions": [
+      {
+       "id": "moji-2-1",
+       "no": 8,
+       "prompt": "きのうから {みみ}が いたいです。",
+       "explanation": "みみ = 耳 (tai). 目 め (mắt), 口 くち (miệng), 手 て (tay).",
+       "options": [
+        "耳",
+        "手",
+        "目",
+        "口"
+       ],
+       "answer": 0
+      },
+      {
+       "id": "moji-2-2",
+       "no": 9,
+       "prompt": "よる {てれび}を みます。",
+       "explanation": "てれび viết Katakana là テレビ. Chú ý ビ (bi) khác ピ (pi), テ khác ラ.",
+       "options": [
+        "テレピ",
+        "テレビ",
+        "ラレビ",
+        "テルビ"
+       ],
+       "answer": 1
+      },
+      {
+       "id": "moji-2-3",
+       "no": 10,
+       "prompt": "せんせいの {はなし}を きいて ください。",
+       "explanation": "はなし (câu chuyện, lời nói) = 話. 詰 (つめる) có hình dạng rất giống.",
+       "options": [
+        "計",
+        "話",
+        "詰",
+        "語"
+       ],
+       "answer": 1
+      },
+      {
+       "id": "moji-2-4",
+       "no": 11,
+       "prompt": "あれは {たかい} やまです。",
+       "explanation": "たかい (cao) = 高い. 亮, 京, 商 đều có phần trên giống 高 nhưng là chữ khác.",
+       "options": [
+        "高い",
+        "京い",
+        "商い",
+        "亮い"
+       ],
+       "answer": 0
+      },
+      {
+       "id": "moji-2-5",
+       "no": 12,
+       "prompt": "{いりぐち}は あちらです。",
+       "explanation": "いりぐち (lối vào) = 入口. 人口 = じんこう (dân số) — 入 và 人 rất dễ nhầm.",
+       "options": [
+        "入日",
+        "入口",
+        "八口",
+        "人口"
+       ],
+       "answer": 1
+      }
+     ]
+    },
+    {
+     "id": "moji-3",
+     "label": "もんだい3",
+     "type": "bunmyaku",
+     "titleJa": "文脈規定",
+     "titleVi": "Chọn từ theo ngữ cảnh",
+     "instructionJa": "（　）に なにが はいりますか。1・2・3・4から いちばん いい ものを ひとつ えらんで ください。",
+     "instructionVi": "Chọn từ thích hợp điền vào chỗ trống (　).",
+     "questions": [
+      {
+       "id": "moji-3-1",
+       "no": 13,
+       "prompt": "のどが かわきましたから、みずを（　）。",
+       "explanation": "Khát (のどが かわきました) → uống nước: みずを のみます. あびます dùng với シャワー.",
+       "options": [
+        "たべました",
+        "すいました",
+        "あびました",
+        "のみました"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "moji-3-2",
+       "no": 14,
+       "prompt": "この えいがは とても（　）です。また 見たいです。",
+       "explanation": "Muốn xem lại → phim hay: おもしろい. つまらない = chán (trái nghĩa).",
+       "options": [
+        "わるい",
+        "いそがしい",
+        "つまらない",
+        "おもしろい"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "moji-3-3",
+       "no": 15,
+       "prompt": "えんぴつで なまえを（　）。",
+       "explanation": "Dùng bút chì (えんぴつで) → viết tên: かきました.",
+       "options": [
+        "よみました",
+        "かきました",
+        "いいました",
+        "ききました"
+       ],
+       "answer": 1
+      },
+      {
+       "id": "moji-3-4",
+       "no": 16,
+       "prompt": "つかれましたから、すこし（　）ましょう。",
+       "explanation": "Mệt → nghỉ một chút: やすみましょう.",
+       "options": [
+        "はたらき",
+        "いそぎ",
+        "やすみ",
+        "はしり"
+       ],
+       "answer": 2
+      },
+      {
+       "id": "moji-3-5",
+       "no": 17,
+       "prompt": "デパートの（　）で 5かいへ 行きます。",
+       "explanation": "Lên tầng 5 bằng thang máy: エレベーター.",
+       "options": [
+        "エレベーター",
+        "ボールペン",
+        "ラジオ",
+        "テーブル"
+       ],
+       "answer": 0
+      },
+      {
+       "id": "moji-3-6",
+       "no": 18,
+       "prompt": "あには めがねを（　）います。",
+       "explanation": "Đeo kính: めがねを かけます. きます (mặc áo), はきます (đi giày/mặc quần), かぶります (đội mũ).",
+       "options": [
+        "かけて",
+        "はいて",
+        "かぶって",
+        "きて"
+       ],
+       "answer": 0
+      }
+     ]
+    },
+    {
+     "id": "moji-4",
+     "label": "もんだい4",
+     "type": "iikae",
+     "titleJa": "言い換え類義",
+     "titleVi": "Câu đồng nghĩa",
+     "instructionJa": "＿＿の ぶんと だいたい おなじ いみの ぶんが あります。1・2・3・4から いちばん いい ものを ひとつ えらんで ください。",
+     "instructionVi": "Chọn câu có nghĩa gần nhất với câu gạch chân.",
+     "questions": [
+      {
+       "id": "moji-4-1",
+       "no": 19,
+       "prompt": "{この みせは やすいです。}",
+       "explanation": "やすい (rẻ) = たかくない (không đắt).",
+       "options": [
+        "この みせは ひろいです。",
+        "この みせの ものは たかいです。",
+        "この みせは あたらしいです。",
+        "この みせの ものは たかくないです。"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "moji-4-2",
+       "no": 20,
+       "prompt": "{きょうしつに だれも いません。}",
+       "explanation": "だれも いません = không có ai = ひとりも いません (không có lấy một người).",
+       "options": [
+        "きょうしつに 人が ひとりも いません。",
+        "きょうしつに せんせいが います。",
+        "きょうしつに がくせいが すこし います。",
+        "きょうしつに 人が おおぜい います。"
+       ],
+       "answer": 0
+      },
+      {
+       "id": "moji-4-3",
+       "no": 21,
+       "prompt": "{やまださんは りょうしんと すんで います。}",
+       "explanation": "りょうしん (両親) = bố mẹ = ちちと はは.",
+       "options": [
+        "やまださんは ともだちと すんで います。",
+        "やまださんは ひとりで すんで います。",
+        "やまださんは あにと あねと すんで います。",
+        "やまださんは ちちと ははと すんで います。"
+       ],
+       "answer": 3
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bunpou",
+   "titleJa": "言語知識（文法）・読解",
+   "titleVi": "Ngữ pháp – Đọc hiểu",
+   "minutes": 40,
+   "scoreGroup": "language",
+   "mondai": [
+    {
+     "id": "bunpou-1",
+     "label": "もんだい1",
+     "type": "bunpou_keishiki",
+     "titleJa": "文法形式の判断",
+     "titleVi": "Chọn ngữ pháp",
+     "instructionJa": "（　）に 何を 入れますか。1・2・3・4から いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Chọn từ/cấu trúc ngữ pháp điền vào chỗ trống (　).",
+     "questions": [
+      {
+       "id": "bunpou-1-1",
+       "no": 1,
+       "prompt": "A「すみません、トイレは（　）ですか。」\nB「あちらです。」",
+       "explanation": "B chỉ nơi chốn (あちら = đằng kia) → hỏi địa điểm: どこ.",
+       "options": [
+        "いつ",
+        "だれ",
+        "なに",
+        "どこ"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "bunpou-1-2",
+       "no": 2,
+       "prompt": "あした 友だち（　）会います。",
+       "explanation": "N に 会います = gặp ai đó. Không dùng を với 会います.",
+       "options": [
+        "に",
+        "で",
+        "へ",
+        "を"
+       ],
+       "answer": 0
+      },
+      {
+       "id": "bunpou-1-3",
+       "no": 3,
+       "prompt": "わたしは にく（　）さかなが すきです。",
+       "explanation": "N1 より N2 が すき = thích N2 hơn N1. Câu: So với thịt, tôi thích cá hơn.",
+       "options": [
+        "ほど",
+        "から",
+        "より",
+        "まで"
+       ],
+       "answer": 2
+      },
+      {
+       "id": "bunpou-1-4",
+       "no": 4,
+       "prompt": "へやが さむいですね。まどを（　）か。",
+       "explanation": "Vましょうか = đề nghị làm giúp (Để tôi đóng cửa sổ nhé?).",
+       "options": [
+        "しめて",
+        "しめません",
+        "しめました",
+        "しめましょう"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "bunpou-1-5",
+       "no": 5,
+       "prompt": "かんじが（　）、よく わかりません。",
+       "explanation": "Tính từ い nối câu: bỏ い + くて → むずかしくて (khó nên...).",
+       "options": [
+        "むずかしくで",
+        "むずかしいくて",
+        "むずかしいで",
+        "むずかしくて"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "bunpou-1-6",
+       "no": 6,
+       "prompt": "A「なにか のみますか。」\nB「いいえ、（　）いりません。」",
+       "explanation": "なにも + phủ định = không ... gì cả. Câu: Không, tôi không cần gì cả.",
+       "options": [
+        "なにも",
+        "なにが",
+        "なにを",
+        "なにか"
+       ],
+       "answer": 0
+      },
+      {
+       "id": "bunpou-1-7",
+       "no": 7,
+       "prompt": "まいにち 7時（　）おきます。",
+       "explanation": "Giờ cụ thể + に: 7時に おきます (thức dậy lúc 7 giờ).",
+       "options": [
+        "で",
+        "を",
+        "が",
+        "に"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "bunpou-1-8",
+       "no": 8,
+       "prompt": "ここで しゃしんを（　）も いいですか。",
+       "explanation": "Vて も いいですか = Tôi làm V có được không? → とっても いいですか.",
+       "options": [
+        "とる",
+        "とった",
+        "とり",
+        "とって"
+       ],
+       "answer": 3
+      },
+      {
+       "id": "bunpou-1-9",
+       "no": 9,
+       "prompt": "田中さんは いま でんわを（　）。",
+       "explanation": "いま + Vて います = đang làm V. Câu: Anh Tanaka bây giờ đang gọi điện thoại.",
+       "options": [
+        "して います",
+        "します",
+        "しません",
+        "しました"
+       ],
+       "answer": 0
+      }
+     ]
+    },
+    {
+     "id": "bunpou-2",
+     "label": "もんだい2",
+     "type": "narabekae",
+     "titleJa": "文の組み立て",
+     "titleVi": "Sắp xếp câu (★)",
+     "instructionJa": "★に 入る ものは どれですか。1・2・3・4から いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Sắp xếp 4 thành phần thành câu đúng, rồi chọn thành phần nằm ở vị trí ★.",
+     "questions": [
+      {
+       "id": "bunpou-2-1",
+       "no": 10,
+       "prompt": "わたしは あした ＿＿ ＿＿ ★ ＿＿ 行きます。",
+       "explanation": "Câu đúng: あした ともだち と こうえん へ 行きます (Ngày mai tôi đi công viên với bạn). Vị trí ★ là こうえん.",
+       "options": [
+        "と",
+        "こうえん",
+        "へ",
+        "ともだち"
+       ],
+       "answer": 1,
+       "order": [
+        3,
+        0,
+        1,
+        2
+       ],
+       "star": 2
+      },
+      {
+       "id": "bunpou-2-2",
+       "no": 11,
+       "prompt": "この ＿＿ ＿＿ ★ ＿＿ ですか。",
+       "explanation": "Câu đúng: この かさ は だれ の ですか (Cái ô này của ai?). Vị trí ★ là だれ.",
+       "options": [
+        "だれ",
+        "は",
+        "かさ",
+        "の"
+       ],
+       "answer": 0,
+       "order": [
+        2,
+        1,
+        0,
+        3
+       ],
+       "star": 2
+      },
+      {
+       "id": "bunpou-2-3",
+       "no": 12,
+       "prompt": "つくえの 上に ＿＿ ＿＿ ★ ＿＿ あります。",
+       "explanation": "Câu đúng: あかい 本 が 2さつ あります (Có 2 quyển sách màu đỏ). Vị trí ★ là が. Mẫu: N が + số lượng + あります.",
+       "options": [
+        "本",
+        "2さつ",
+        "が",
+        "あかい"
+       ],
+       "answer": 2,
+       "order": [
+        3,
+        0,
+        2,
+        1
+       ],
+       "star": 2
+      },
+      {
+       "id": "bunpou-2-4",
+       "no": 13,
+       "prompt": "きのう ＿＿ ＿＿ ★ ＿＿ ねました。",
+       "explanation": "Câu đúng: しゅくだい を して から ねました (Hôm qua làm bài tập xong rồi đi ngủ). Vị trí ★ là して.",
+       "options": [
+        "して",
+        "を",
+        "から",
+        "しゅくだい"
+       ],
+       "answer": 0,
+       "order": [
+        3,
+        1,
+        0,
+        2
+       ],
+       "star": 2
+      }
+     ]
+    },
+    {
+     "id": "bunpou-3",
+     "label": "もんだい3",
+     "type": "bunshou",
+     "titleJa": "文章の文法",
+     "titleVi": "Ngữ pháp trong đoạn văn",
+     "instructionJa": "［1］から［4］に 何を 入れますか。ぶんしょうの いみを かんがえて、1・2・3・4から いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Đọc đoạn văn, chọn từ thích hợp điền vào các chỗ trống [1]–[4].",
+     "questions": [
+      {
+       "id": "bunpou-3-1",
+       "no": 14,
+       "prompt": "［1］",
+       "explanation": "Thành phố náo nhiệt → người và xe máy đều nhiều: おおいです. Danh từ đếm được dùng おおい, không dùng おおきい.",
+       "options": [
+        "すくないです",
+        "おおいです",
+        "ひろいです",
+        "おおきいです"
+       ],
+       "answer": 1
+      },
+      {
+       "id": "bunpou-3-2",
+       "no": 15,
+       "prompt": "［2］",
+       "explanation": "Câu trước nói điều hay (thích đi dạo quanh hồ), câu sau nói điều không hay (mùa hè rất nóng) → でも.",
+       "options": [
+        "だから",
+        "そして",
+        "でも",
+        "それから"
+       ],
+       "answer": 2
+      },
+      {
+       "id": "bunpou-3-3",
+       "no": 16,
+       "prompt": "［3］",
+       "explanation": "So sánh: 日本の 夏より あついです = nóng hơn mùa hè Nhật.",
+       "options": [
+        "から",
+        "より",
+        "ほど",
+        "まで"
+       ],
+       "answer": 1
+      },
+      {
+       "id": "bunpou-3-4",
+       "no": 17,
+       "prompt": "［4］",
+       "explanation": "Lời mời cuối bài: ぜひ ハノイへ 来て ください (Nhất định hãy đến Hà Nội nhé).",
+       "options": [
+        "来て ください",
+        "来ません",
+        "来ました",
+        "来て います"
+       ],
+       "answer": 0
+      }
+     ],
+     "passage": "　　　わたしの　まち\n　　　　　　　　　　　　　　グエン\n　わたしは　ベトナムの　ハノイから　来ました。ハノイは　大きくて、にぎやかな　まちです。人も　バイクも　とても　［1］。\n　ハノイには　みずうみが　たくさん　あります。わたしは　みずうみの　まわりを　さんぽするのが　すきです。［2］、夏は　とても　あついです。日本の　夏［3］　あついです。\n　みなさん、ぜひ　ハノイへ　［4］。"
+    },
+    {
+     "id": "bunpou-4",
+     "label": "もんだい4",
+     "type": "tanbun",
+     "titleJa": "内容理解（短文）",
+     "titleVi": "Đọc hiểu đoạn ngắn",
+     "instructionJa": "つぎの ぶんしょうを 読んで、しつもんに こたえて ください。こたえは、1・2・3・4から いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Đọc đoạn văn ngắn và trả lời câu hỏi.",
+     "questions": [
+      {
+       "id": "bunpou-4-1",
+       "no": 18,
+       "prompt": "4月から としょかんが 休みの 日は 何曜日ですか。",
+       "explanation": "4月から 月よう日が 休みに なります → từ tháng 4 thư viện nghỉ thứ Hai.",
+       "options": [
+        "火よう日",
+        "日よう日",
+        "月よう日",
+        "土よう日"
+       ],
+       "answer": 2,
+       "passage": "　　としょかんの　おしらせ\n4月から　としょかんは　月よう日が　休みに　なります。火よう日から　日よう日は、9時から　6時まで　あいて　います。本は　2しゅうかん　かりる　ことが　できます。"
+      },
+      {
+       "id": "bunpou-4-2",
+       "no": 19,
+       "prompt": "マリアさんは あした 12時に どこへ 行きますか。",
+       "explanation": "Sato hẹn: 12時に 会社の 1かいの ロビーで まって います → Maria đến sảnh tầng 1 của công ty.",
+       "options": [
+        "さとうさんの へや",
+        "会社の 1かいの ロビー",
+        "会社の しょくどう",
+        "えきの 前の レストラン"
+       ],
+       "answer": 1,
+       "passage": "（マリアさんが　メールを　もらいました。）\n\nマリアさん\nあしたの　ひるごはんは　いっしょに　食べませんか。12時に　会社の　1かいの　ロビーで　まって　います。\n　　　　　　　　さとう"
+      }
+     ]
+    },
+    {
+     "id": "bunpou-5",
+     "label": "もんだい5",
+     "type": "chuubun",
+     "titleJa": "内容理解（中文）",
+     "titleVi": "Đọc hiểu đoạn vừa",
+     "instructionJa": "つぎの ぶんしょうを 読んで、しつもんに こたえて ください。こたえは、1・2・3・4から いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Đọc đoạn văn vừa và trả lời câu hỏi.",
+     "questions": [
+      {
+       "id": "bunpou-5-1",
+       "no": 20,
+       "prompt": "はじめ、ホアさんは どうして こまりましたか。",
+       "explanation": "はじめは 日本語が あまり わかりませんでした → khi mua sắm rất bối rối vì chưa hiểu tiếng Nhật.",
+       "options": [
+        "お金が なかったから",
+        "日本語が あまり わからなかったから",
+        "店が ちかくに なかったから",
+        "友だちが いなかったから"
+       ],
+       "answer": 1
+      },
+      {
+       "id": "bunpou-5-2",
+       "no": 21,
+       "prompt": "ホアさんは 来月 何を しますか。",
+       "explanation": "来月、木村さんと 京都へ 行きます → tháng sau đi Kyoto với chị Kimura.",
+       "options": [
+        "一人で 買いものに 行きます",
+        "国へ かえります",
+        "木村さんと 京都へ 行きます",
+        "日本語の 学校に 入ります"
+       ],
+       "answer": 2
+      }
+     ],
+     "passage": "　　　はじめての　日本\n　　　　　　　　　　　　　　ホア\n　わたしは　3か月前に　日本へ　来ました。はじめは　日本語が　あまり　わかりませんでした。店で　買いものを　する　とき、とても　こまりました。\n　でも、となりの　へやの　木村さんと　いっしょに　よく　買いものに　行きました。木村さんは　いつも　ゆっくり　日本語で　話しました。今は　一人で　買いものが　できます。\n　来月、木村さんと　京都へ　行きます。とても　たのしみです。"
+    },
+    {
+     "id": "bunpou-6",
+     "label": "もんだい6",
+     "type": "jouhou",
+     "titleJa": "情報検索",
+     "titleVi": "Tìm thông tin",
+     "instructionJa": "下の あんないを 見て、しつもんに こたえて ください。こたえは、1・2・3・4から いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Đọc bảng thông tin và trả lời câu hỏi (tìm thông tin).",
+     "questions": [
+      {
+       "id": "bunpou-6-1",
+       "no": 22,
+       "prompt": "キムさんは ランチで コーヒーも のみたいです。お金は 800円 あります。どれを 食べますか。",
+       "explanation": "Có cà phê: C (900 yên — quá 800) và D (700 yên). Chỉ D vừa có cà phê vừa đủ tiền.",
+       "options": [
+        "B",
+        "D",
+        "A",
+        "C"
+       ],
+       "answer": 1
+      }
+     ],
+     "table": {
+      "title": "ひまわり食堂　ランチ（11:00〜14:00）",
+      "headers": [
+       "",
+       "メニュー",
+       "ねだん"
+      ],
+      "rows": [
+       [
+        "A",
+        "カレーライス",
+        "650円"
+       ],
+       [
+        "B",
+        "ラーメンと ごはん",
+        "800円"
+       ],
+       [
+        "C",
+        "さかな ていしょく（コーヒー つき）",
+        "900円"
+       ],
+       [
+        "D",
+        "サンドイッチと コーヒー",
+        "700円"
+       ]
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "choukai",
+   "titleJa": "聴解",
+   "titleVi": "Nghe hiểu",
+   "minutes": 30,
+   "scoreGroup": "listening",
+   "mondai": [
+    {
+     "id": "choukai-1",
+     "label": "もんだい1",
+     "type": "kadai",
+     "titleJa": "課題理解",
+     "titleVi": "Hiểu vấn đề",
+     "instructionJa": "もんだい1では、はじめに しつもんを 聞いて ください。それから 話を 聞いて、もんだいようしの 1から4の 中から、いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Nghe câu hỏi trước, sau đó nghe hội thoại và chọn đáp án đúng nhất.",
+     "questions": [
+      {
+       "id": "choukai-1-1",
+       "no": 1,
+       "prompt": "女の 学生は 何を もって 行きますか。",
+       "explanation": "Bánh kem thì Tanaka mang rồi, cậu nam nhờ cô mang đồ uống (のみものを おねがいします).",
+       "options": [
+        "くだもの",
+        "おかし",
+        "ケーキ",
+        "のみもの"
+       ],
+       "answer": 3,
+       "script": [
+        [
+         "N",
+         "男の 学生と 女の 学生が 話して います。女の 学生は 何を もって 行きますか。"
+        ],
+        [
+         "M",
+         "あしたの パーティー、何か もって 来て ください。"
+        ],
+        [
+         "F",
+         "じゃ、ケーキを もって 行きましょうか。"
+        ],
+        [
+         "M",
+         "ケーキは 田中さんが もって 来ます。のみものを おねがいします。"
+        ],
+        [
+         "F",
+         "わかりました。"
+        ],
+        [
+         "N",
+         "女の 学生は 何を もって 行きますか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-1-2",
+       "no": 2,
+       "prompt": "男の 人は 何時の 電車に のりますか。",
+       "explanation": "Chuyến 10 giờ không còn, anh đồng ý đi chuyến 10 giờ 20.",
+       "options": [
+        "10時",
+        "10時20分",
+        "10時10分",
+        "10時半"
+       ],
+       "answer": 1,
+       "script": [
+        [
+         "N",
+         "女の 人と 男の 人が 話して います。男の 人は 何時の 電車に のりますか。"
+        ],
+        [
+         "F",
+         "電車は 何時ですか。"
+        ],
+        [
+         "M",
+         "10時の 電車に のりたいです。"
+        ],
+        [
+         "F",
+         "10時の 電車は もう ありませんよ。10時20分の 電車は どうですか。"
+        ],
+        [
+         "M",
+         "じゃ、それに のります。"
+        ],
+        [
+         "N",
+         "男の 人は 何時の 電車に のりますか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-1-3",
+       "no": 3,
+       "prompt": "学生は きょう 家で 何ページを べんきょうしますか。",
+       "explanation": "Bài tập về nhà (しゅくだい) là trang 26 và 27. Trang 28 học ở trường ngày mai.",
+       "options": [
+        "26ページと 27ページ",
+        "27ページと 28ページ",
+        "28ページ",
+        "25ページ"
+       ],
+       "answer": 0,
+       "script": [
+        [
+         "N",
+         "先生が 話して います。学生は きょう 家で 何ページを べんきょうしますか。"
+        ],
+        [
+         "F",
+         "きょうは 25ページまで べんきょうしました。"
+        ],
+        [
+         "F",
+         "しゅくだいは 26ページと 27ページです。28ページは あした 学校で します。"
+        ],
+        [
+         "N",
+         "学生は きょう 家で 何ページを べんきょうしますか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-1-4",
+       "no": 4,
+       "prompt": "女の 人は かばんを どこに おきますか。",
+       "explanation": "Trên bàn nhiều sách quá nên anh bảo đặt dưới ghế.",
+       "options": [
+        "つくえの 上",
+        "いすの 上",
+        "つくえの 下",
+        "いすの 下"
+       ],
+       "answer": 3,
+       "script": [
+        [
+         "N",
+         "男の 人と 女の 人が 話して います。女の 人は かばんを どこに おきますか。"
+        ],
+        [
+         "M",
+         "その かばんは つくえの 上に おいて ください。"
+        ],
+        [
+         "F",
+         "つくえの 上は 本が たくさん ありますよ。"
+        ],
+        [
+         "M",
+         "そうですね。じゃ、いすの 下に おいて ください。"
+        ],
+        [
+         "N",
+         "女の 人は かばんを どこに おきますか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-1-5",
+       "no": 5,
+       "prompt": "男の 人は 何を のみますか。",
+       "explanation": "Anh uống hồng trà, không cần đường (さとうは いりません).",
+       "options": [
+        "さとうが ない こうちゃ",
+        "ジュース",
+        "コーヒー",
+        "さとうが ある こうちゃ"
+       ],
+       "answer": 0,
+       "script": [
+        [
+         "N",
+         "女の 人と 男の 人が 話して います。男の 人は 何を のみますか。"
+        ],
+        [
+         "F",
+         "何を のみますか。コーヒーですか。"
+        ],
+        [
+         "M",
+         "いいえ、コーヒーは 朝 たくさん のみましたから、こうちゃを おねがいします。"
+        ],
+        [
+         "F",
+         "さとうは？"
+        ],
+        [
+         "M",
+         "いりません。"
+        ],
+        [
+         "N",
+         "男の 人は 何を のみますか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-1-6",
+       "no": 6,
+       "prompt": "二人は 何で 行きますか。",
+       "explanation": "Xe buýt lâu, taxi đắt → cuối cùng chọn tàu điện (電車に しましょう).",
+       "options": [
+        "あるいて",
+        "電車",
+        "タクシー",
+        "バス"
+       ],
+       "answer": 1,
+       "script": [
+        [
+         "N",
+         "男の 人と 女の 人が 話して います。二人は 何で 行きますか。"
+        ],
+        [
+         "M",
+         "山田さんの うちまで 何で 行きましょうか。バスですか。"
+        ],
+        [
+         "F",
+         "バスは 時間が かかりますから、タクシーで 行きましょう。"
+        ],
+        [
+         "M",
+         "でも、タクシーは 高いですよ。電車は どうですか。"
+        ],
+        [
+         "F",
+         "そうですね。電車に しましょう。"
+        ],
+        [
+         "N",
+         "二人は 何で 行きますか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-1-7",
+       "no": 7,
+       "prompt": "男の 人は 何を 買いますか。",
+       "explanation": "Mua trứng, sữa và thêm táo. Bánh mì đã mua hôm qua nên không cần.",
+       "options": [
+        "たまご、ぎゅうにゅう、りんご",
+        "ぎゅうにゅう、パン、りんご",
+        "たまご、ぎゅうにゅう、パン",
+        "たまご、ぎゅうにゅう"
+       ],
+       "answer": 0,
+       "script": [
+        [
+         "N",
+         "女の 人と 男の 人が 話して います。男の 人は 何を 買いますか。"
+        ],
+        [
+         "F",
+         "スーパーで たまごと ぎゅうにゅうを 買って きて ください。"
+        ],
+        [
+         "M",
+         "はい。パンは いいですか。"
+        ],
+        [
+         "F",
+         "パンは きのう 買いましたから、いいです。あ、りんごも おねがいします。"
+        ],
+        [
+         "N",
+         "男の 人は 何を 買いますか。"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "choukai-2",
+     "label": "もんだい2",
+     "type": "point",
+     "titleJa": "ポイント理解",
+     "titleVi": "Hiểu điểm chính",
+     "instructionJa": "もんだい2では、はじめに しつもんを 聞いて ください。それから 話を 聞いて、もんだいようしの 1から4の 中から、いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Nghe câu hỏi trước, sau đó nghe hội thoại để tìm điểm then chốt.",
+     "questions": [
+      {
+       "id": "choukai-2-1",
+       "no": 8,
+       "prompt": "男の 人の たんじょうびは いつですか。",
+       "explanation": "Sinh nhật ngày 8 tháng 7 (しちがつ ようか). Cô nghe nhầm thành ngày 4 (よっか) và anh sửa lại.",
+       "options": [
+        "7月 4日",
+        "8月 7日",
+        "4月 7日",
+        "7月 8日"
+       ],
+       "answer": 3,
+       "script": [
+        [
+         "N",
+         "女の 人と 男の 人が 話して います。男の 人の たんじょうびは いつですか。"
+        ],
+        [
+         "F",
+         "たんじょうびは いつですか。"
+        ],
+        [
+         "M",
+         "7月 8日です。"
+        ],
+        [
+         "F",
+         "7月 4日ですか。"
+        ],
+        [
+         "M",
+         "いいえ、8日です。"
+        ],
+        [
+         "N",
+         "男の 人の たんじょうびは いつですか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-2-2",
+       "no": 9,
+       "prompt": "女の 人は きのうの 朝 どこへ 行きましたか。",
+       "explanation": "Buổi sáng cô đi bệnh viện. Có hẹn đi thư viện nhưng bạn không đến nên về nhà.",
+       "options": [
+        "デパート",
+        "友だちの うち",
+        "びょういん",
+        "としょかん"
+       ],
+       "answer": 2,
+       "script": [
+        [
+         "N",
+         "男の 人と 女の 人が 話して います。女の 人は きのうの 朝 どこへ 行きましたか。"
+        ],
+        [
+         "M",
+         "きのう 何を しましたか。"
+        ],
+        [
+         "F",
+         "朝は びょういんへ 行きました。それから 友だちと としょかんへ 行く やくそくでしたが、友だちが 来ませんでしたから、うちへ かえりました。"
+        ],
+        [
+         "N",
+         "女の 人は きのうの 朝 どこへ 行きましたか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-2-3",
+       "no": 10,
+       "prompt": "男の 人は どうして 日本語を べんきょうして いますか。",
+       "explanation": "Lý do: thích anime Nhật. Anh muốn làm việc ở Việt Nam chứ không phải ở Nhật.",
+       "options": [
+        "アニメが すきだから",
+        "日本人の 友だちが いるから",
+        "学校で べんきょうするから",
+        "日本で はたらきたいから"
+       ],
+       "answer": 0,
+       "script": [
+        [
+         "N",
+         "女の 人と 男の 人が 話して います。男の 人は どうして 日本語を べんきょうして いますか。"
+        ],
+        [
+         "F",
+         "どうして 日本語を べんきょうして いますか。"
+        ],
+        [
+         "M",
+         "日本の アニメが すきですから。"
+        ],
+        [
+         "F",
+         "日本で しごとを したいですか。"
+        ],
+        [
+         "M",
+         "いいえ、しごとは ベトナムで したいです。"
+        ],
+        [
+         "N",
+         "男の 人は どうして 日本語を べんきょうして いますか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-2-4",
+       "no": 11,
+       "prompt": "女の 人は 毎日 何時間 ねますか。",
+       "explanation": "Ngủ lúc 12 giờ đêm, dậy lúc 6 giờ sáng → 6 tiếng.",
+       "options": [
+        "5時間",
+        "7時間",
+        "8時間",
+        "6時間"
+       ],
+       "answer": 3,
+       "script": [
+        [
+         "N",
+         "男の 人と 女の 人が 話して います。女の 人は 毎日 何時間 ねますか。"
+        ],
+        [
+         "M",
+         "毎日 何時間 ねますか。"
+        ],
+        [
+         "F",
+         "よる 12時に ねて、朝 6時に おきます。"
+        ],
+        [
+         "M",
+         "え、6時間ですか。"
+        ],
+        [
+         "F",
+         "はい。"
+        ],
+        [
+         "N",
+         "女の 人は 毎日 何時間 ねますか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-2-5",
+       "no": 12,
+       "prompt": "男の 人の へやは 何かいですか。",
+       "explanation": "Trước ở tầng 3, tháng trước đã chuyển lên tầng 5 → hiện tại tầng 5.",
+       "options": [
+        "4かい",
+        "3かい",
+        "6かい",
+        "5かい"
+       ],
+       "answer": 3,
+       "script": [
+        [
+         "N",
+         "女の 人と 男の 人が 話して います。男の 人の へやは 何かいですか。"
+        ],
+        [
+         "F",
+         "中村さんの へやは 何かいですか。"
+        ],
+        [
+         "M",
+         "前は 3かいでしたが、先月 5かいに かわりました。"
+        ],
+        [
+         "F",
+         "そうですか。"
+        ],
+        [
+         "N",
+         "男の 人の へやは 何かいですか。"
+        ]
+       ]
+      },
+      {
+       "id": "choukai-2-6",
+       "no": 13,
+       "prompt": "女の 人は どんな くつを 買いましたか。",
+       "explanation": "Muốn giày đen nhưng không có nên mua giày trắng (しろいの).",
+       "options": [
+        "しろい くつ",
+        "ちゃいろの くつ",
+        "あかい くつ",
+        "くろい くつ"
+       ],
+       "answer": 0,
+       "script": [
+        [
+         "N",
+         "男の 人と 女の 人が 話して います。女の 人は どんな くつを 買いましたか。"
+        ],
+        [
+         "M",
+         "あたらしい くつですね。"
+        ],
+        [
+         "F",
+         "はい、きのう 買いました。くろい くつが ほしかったですが、ありませんでしたから、しろいのを 買いました。"
+        ],
+        [
+         "N",
+         "女の 人は どんな くつを 買いましたか。"
+        ]
+       ]
+      }
+     ]
+    },
+    {
+     "id": "choukai-3",
+     "label": "もんだい3",
+     "type": "hatsuwa",
+     "titleJa": "発話表現",
+     "titleVi": "Diễn đạt bằng lời",
+     "instructionJa": "もんだい3では、ばめんを 見ながら しつもんを 聞いて ください。➡の 人は 何と 言いますか。1から3の 中から、いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Xem tình huống và nghe câu hỏi. Người được chỉ (➡) sẽ nói gì? Các lựa chọn chỉ được đọc, không in ra.",
+     "questions": [
+      {
+       "id": "choukai-3-1",
+       "no": 14,
+       "prompt": "友だちが 先に かえります。何と 言いますか。",
+       "explanation": "Chào tạm biệt: さようなら、また あした. ただいま/おかえりなさい dùng khi về đến nhà.",
+       "options": [
+        "おかえりなさい。",
+        "ただいま。",
+        "さようなら、また あした。"
+       ],
+       "answer": 2,
+       "script": [
+        [
+         "N",
+         "友だちが 先に かえります。何と 言いますか。"
+        ]
+       ],
+       "scene": "Bạn của bạn về trước.",
+       "audioOptions": true
+      },
+      {
+       "id": "choukai-3-2",
+       "no": 15,
+       "prompt": "先生の へやに 入ります。何と 言いますか。",
+       "explanation": "Khi vào phòng người trên: しつれいします. おじゃましました nói khi ra về.",
+       "options": [
+        "しつれいします。",
+        "おじゃましました。",
+        "いってらっしゃい。"
+       ],
+       "answer": 0,
+       "script": [
+        [
+         "N",
+         "先生の へやに 入ります。何と 言いますか。"
+        ]
+       ],
+       "scene": "Bạn bước vào phòng của thầy giáo.",
+       "audioOptions": true
+      },
+      {
+       "id": "choukai-3-3",
+       "no": 16,
+       "prompt": "友だちに プレゼントを もらいました。何と 言いますか。",
+       "explanation": "Nhận quà → cảm ơn: ありがとう. どういたしまして là đáp lại lời cảm ơn.",
+       "options": [
+        "どうぞ。",
+        "ありがとう。",
+        "どういたしまして。"
+       ],
+       "answer": 1,
+       "script": [
+        [
+         "N",
+         "友だちに プレゼントを もらいました。何と 言いますか。"
+        ]
+       ],
+       "scene": "Bạn nhận được quà từ bạn bè.",
+       "audioOptions": true
+      },
+      {
+       "id": "choukai-3-4",
+       "no": 17,
+       "prompt": "えきへの みちが わかりません。何と 言いますか。",
+       "explanation": "Hỏi đường: すみません、えきは どこですか.",
+       "options": [
+        "えきは あそこですよ。",
+        "すみません、えきへ 行きましょう。",
+        "すみません、えきは どこですか。"
+       ],
+       "answer": 2,
+       "script": [
+        [
+         "N",
+         "えきへの みちが わかりません。何と 言いますか。"
+        ]
+       ],
+       "scene": "Bạn không biết đường đến nhà ga.",
+       "audioOptions": true
+      },
+      {
+       "id": "choukai-3-5",
+       "no": 18,
+       "prompt": "友だちと ひるごはんを 食べたいです。何と 言いますか。",
+       "explanation": "Rủ rê: いっしょに 〜ませんか.",
+       "options": [
+        "ひるごはんを 食べましたか。",
+        "いっしょに ひるごはんを 食べませんか。",
+        "ひるごはんは おいしかったです。"
+       ],
+       "answer": 1,
+       "script": [
+        [
+         "N",
+         "友だちと ひるごはんを 食べたいです。何と 言いますか。"
+        ]
+       ],
+       "scene": "Bạn muốn ăn trưa cùng bạn bè.",
+       "audioOptions": true
+      }
+     ]
+    },
+    {
+     "id": "choukai-4",
+     "label": "もんだい4",
+     "type": "sokuji",
+     "titleJa": "即時応答",
+     "titleVi": "Phản xạ tức thì",
+     "instructionJa": "もんだい4は、えなどが ありません。ぶんを 聞いて、1から3の 中から、いちばん いい ものを 一つ えらんで ください。",
+     "instructionVi": "Không có hình. Nghe câu nói và chọn câu đáp lại phù hợp nhất (lựa chọn chỉ được đọc).",
+     "questions": [
+      {
+       "id": "choukai-4-1",
+       "no": 19,
+       "prompt": "",
+       "explanation": "おくには どちらですか = Bạn đến từ nước nào? → ベトナムです.",
+       "options": [
+        "あちらです。",
+        "にほんごです。",
+        "ベトナムです。"
+       ],
+       "answer": 2,
+       "script": [
+        [
+         "M",
+         "おくには どちらですか。"
+        ]
+       ],
+       "audioOptions": true
+      },
+      {
+       "id": "choukai-4-2",
+       "no": 20,
+       "prompt": "",
+       "explanation": "なんじに (lúc mấy giờ) → 11じに ねました. 7じかん là khoảng thời gian (mấy tiếng).",
+       "options": [
+        "7じかん ねました。",
+        "11じに ねました。",
+        "あした ねます。"
+       ],
+       "answer": 1,
+       "script": [
+        [
+         "F",
+         "きのうは なんじに ねましたか。"
+        ]
+       ],
+       "audioOptions": true
+      },
+      {
+       "id": "choukai-4-3",
+       "no": 21,
+       "prompt": "",
+       "explanation": "Được mời ăn → いただきます.",
+       "options": [
+        "ごちそうさまでした。",
+        "どういたしまして。",
+        "いただきます。"
+       ],
+       "answer": 2,
+       "script": [
+        [
+         "M",
+         "どうぞ、たくさん たべて ください。"
+        ]
+       ],
+       "audioOptions": true
+      },
+      {
+       "id": "choukai-4-4",
+       "no": 22,
+       "prompt": "",
+       "explanation": "だれが (ai) → trả lời người làm: わたしが つくりました.",
+       "options": [
+        "わたしが つくりました。",
+        "ケーキを つくりました。",
+        "とても おいしいです。"
+       ],
+       "answer": 0,
+       "script": [
+        [
+         "F",
+         "この ケーキ、だれが つくりましたか。"
+        ]
+       ],
+       "audioOptions": true
+      },
+      {
+       "id": "choukai-4-5",
+       "no": 23,
+       "prompt": "",
+       "explanation": "なんじ (mấy giờ) → 3じ はん (3 giờ rưỡi).",
+       "options": [
+        "3じ はんです。",
+        "3じかんです。",
+        "3かいです。"
+       ],
+       "answer": 0,
+       "script": [
+        [
+         "M",
+         "いま なんじですか。"
+        ]
+       ],
+       "audioOptions": true
+      },
+      {
+       "id": "choukai-4-6",
+       "no": 24,
+       "prompt": "",
+       "explanation": "Hỏi quá khứ (しましたか) → trả lời quá khứ: えいがを 見ました.",
+       "options": [
+        "えいがを 見ました。",
+        "どようびです。",
+        "えいがを 見ます。"
+       ],
+       "answer": 0,
+       "script": [
+        [
+         "F",
+         "しゅうまつ、なにを しましたか。"
+        ]
+       ],
+       "audioOptions": true
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

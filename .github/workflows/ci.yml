@@ -1,0 +1,42 @@
+name: mock-test-ci
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Kiểm tra dữ liệu đề (sinh lại JSON phải trùng với bản commit)
+        run: |
+          python3 tools/build_exams.py
+          git diff --exit-code assets/exams
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Sinh thư mục nền tảng và cấu hình native
+        run: |
+          flutter create --platforms=android,ios --org com.manabihub --project-name jlpt_mock_test .
+          python3 tools/configure_native.py
+
+      - run: flutter pub get
+      - run: flutter analyze --no-fatal-infos
+      - run: flutter test
+      - run: flutter build apk --release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: jlpt-n5-mock-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
