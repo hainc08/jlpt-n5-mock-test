@@ -262,8 +262,8 @@ class _ExamRoomScreenState extends State<ExamRoomScreen> with WidgetsBindingObse
         titleSpacing: 0,
         title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('Phần ${s.sectionIndex + 1}: ${s.section.titleJa}',
-              style: Zen.ja(15, weight: FontWeight.w700, height: 1.3), overflow: TextOverflow.ellipsis),
-          Text('${s.exam.title} · JLPT N5', style: Zen.small),
+              style: Zen.ja(15, weight: FontWeight.w700, height: 1.3), maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text('${s.exam.title} · JLPT N5', style: Zen.small, maxLines: 1, overflow: TextOverflow.ellipsis),
         ]),
         actions: [
           IconButton(

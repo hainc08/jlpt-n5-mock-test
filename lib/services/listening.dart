@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -30,6 +31,14 @@ class ListeningPlayer extends ChangeNotifier {
     _ready = true;
     try {
       await _tts.awaitSpeakCompletion(true);
+      if (Platform.isIOS) {
+        // Vẫn phát tiếng khi iPhone bật chế độ im lặng.
+        await _tts.setSharedInstance(true);
+        await _tts.setIosAudioCategory(
+          IosTextToSpeechAudioCategory.playback,
+          [IosTextToSpeechAudioCategoryOptions.defaultToSpeaker, IosTextToSpeechAudioCategoryOptions.mixWithOthers],
+        );
+      }
       final ok = await _tts.isLanguageAvailable('ja-JP');
       _jaAvailable = ok == true || ok == 1;
       await _tts.setLanguage('ja-JP');

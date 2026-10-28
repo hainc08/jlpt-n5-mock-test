@@ -1,4 +1,4 @@
-/// Mô hình dữ liệu đề thi (đọc từ assets/exams/<level>/*.json).
+/// Mô hình dữ liệu đề thi (đọc từ `assets/exams/<level>/*.json`).
 library;
 
 class ExamSummary {
