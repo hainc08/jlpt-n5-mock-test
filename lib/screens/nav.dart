@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../app.dart';
 import '../logic/session.dart';
+import '../models.dart';
 import '../services/storage.dart';
 import 'exam_intro.dart';
 import 'exam_room.dart';
@@ -14,7 +15,14 @@ class Nav {
   }
 
   static Future<void> openResult(BuildContext context, Attempt attempt) async {
-    final exam = await AppScope.of(context).repo.load(attempt.examId);
+    final messenger = ScaffoldMessenger.of(context);
+    final Exam exam;
+    try {
+      exam = await AppScope.of(context).repo.load(attempt.examId);
+    } catch (_) {
+      messenger.showSnackBar(const SnackBar(content: Text('Đề này đã bị gỡ nên không mở lại được kết quả.')));
+      return;
+    }
     if (!context.mounted) return;
     await Navigator.of(context).push(MaterialPageRoute(builder: (_) => ResultScreen(exam: exam, attempt: attempt)));
   }

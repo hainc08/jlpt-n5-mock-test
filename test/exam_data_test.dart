@@ -17,7 +17,7 @@ List<Exam> loadExams() {
   final index = jsonDecode(File('assets/exams/n5/index.json').readAsStringSync()) as Map<String, dynamic>;
   return [
     for (final e in index['exams'] as List)
-      Exam.fromJson(jsonDecode(File((e as Map)['file'] as String).readAsStringSync()) as Map<String, dynamic>)
+      Exam.fromJson(jsonDecode(File('assets/exams/n5/$e').readAsStringSync()) as Map<String, dynamic>)
   ];
 }
 

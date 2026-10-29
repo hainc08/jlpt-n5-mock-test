@@ -18,13 +18,12 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final services = AppScope.of(context);
     return SafeArea(
-      child: FutureBuilder<List<ExamSummary>>(
-        future: services.repo.index(),
-        builder: (context, snap) {
-          final exams = snap.data ?? const <ExamSummary>[];
+      child: Builder(
+        builder: (context) {
           return ListenableBuilder(
-            listenable: services.storage,
+            listenable: Listenable.merge([services.storage, services.repo]),
             builder: (context, _) {
+              final exams = services.repo.exams;
               final storage = services.storage;
               final attempts = storage.attempts;
               final saved = storage.savedSession;

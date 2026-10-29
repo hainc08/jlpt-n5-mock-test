@@ -63,6 +63,8 @@ class Storage extends ChangeNotifier {
 
   final SharedPreferences _prefs;
 
+  SharedPreferences get prefs => _prefs;
+
   static Future<Storage> open() async => Storage._(await SharedPreferences.getInstance());
 
   // ---- Lịch sử thi ----

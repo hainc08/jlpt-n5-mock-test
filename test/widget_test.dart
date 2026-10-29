@@ -13,7 +13,10 @@ import 'exam_data_test.dart' show loadExams;
 
 Future<Services> makeServices() async {
   SharedPreferences.setMockInitialValues({});
-  return Services(storage: await Storage.open(), repo: ExamRepository(), player: ListeningPlayer());
+  final storage = await Storage.open();
+  final repo = ExamRepository(prefs: storage.prefs);
+  await repo.init();
+  return Services(storage: storage, repo: repo, player: ListeningPlayer());
 }
 
 void main() {

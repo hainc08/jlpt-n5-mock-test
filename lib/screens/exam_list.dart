@@ -10,59 +10,98 @@ import 'nav.dart';
 class ExamListScreen extends StatelessWidget {
   const ExamListScreen({super.key});
 
+  static Future<void> refresh(BuildContext context) async {
+    final repo = AppScope.of(context).repo;
+    final messenger = ScaffoldMessenger.of(context);
+    final n = await repo.sync();
+    messenger.showSnackBar(SnackBar(
+      content: Text(n < 0
+          ? 'Không kết nối được máy chủ đề. Đang dùng đề đã tải.'
+          : (n == 0 ? 'Danh sách đề đã là mới nhất.' : 'Đã cập nhật $n đề.')),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     final services = AppScope.of(context);
     return Scaffold(
-      appBar: AppBar(title: const Text('Chọn đề thi')),
-      body: FutureBuilder<List<ExamSummary>>(
-        future: services.repo.index(),
-        builder: (context, snap) {
-          if (!snap.hasData) return const Center(child: CircularProgressIndicator());
-          final exams = snap.data!;
-          return ListenableBuilder(
-            listenable: services.storage,
-            builder: (context, _) {
-              final saved = services.storage.savedSession;
-              return ListView(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
-                children: [
-                  Text('Mỗi đề gồm 3 phần thi như kỳ thi thật: 文字・語彙 20 phút · 文法・読解 40 phút · 聴解 30 phút.',
-                      style: Zen.small.copyWith(locale: Zen.jaLocale)),
-                  const SizedBox(height: 12),
-                  for (final e in exams) ...[
-                    _ExamCard(
-                      exam: e,
-                      inProgress: saved != null && saved['examId'] == e.id,
-                      onTap: () => saved != null && saved['examId'] == e.id ? Nav.resume(context) : Nav.openIntro(context, e.id),
-                    ),
-                    const SizedBox(height: 12),
-                  ],
-                  const SizedBox(height: 8),
-                  ZenCard(
-                    color: Zen.subtle,
-                    borderColor: Zen.subtle,
-                    padding: const EdgeInsets.all(16),
-                    child: Row(children: [
-                      const Icon(Icons.hourglass_empty_rounded, color: Zen.ink2),
-                      const SizedBox(width: 12),
-                      Expanded(child: Text('Đề mới sẽ được cập nhật thường xuyên.', style: Zen.small)),
-                    ]),
+      appBar: AppBar(
+        title: const Text('Chọn đề thi'),
+        actions: [
+          ListenableBuilder(
+            listenable: services.repo,
+            builder: (context, _) => services.repo.syncing
+                ? const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
+                  )
+                : IconButton(
+                    tooltip: 'Kiểm tra đề mới',
+                    onPressed: () => refresh(context),
+                    icon: const Icon(Icons.refresh),
                   ),
+          ),
+        ],
+      ),
+      body: ListenableBuilder(
+        listenable: Listenable.merge([services.storage, services.repo]),
+        builder: (context, _) {
+          final exams = services.repo.exams;
+          final saved = services.storage.savedSession;
+          final last = services.repo.lastSync;
+          return RefreshIndicator(
+            color: Zen.primary,
+            onRefresh: () => refresh(context),
+            child: ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
+              children: [
+                Text('Mỗi đề gồm 3 phần thi như kỳ thi thật: 文字・語彙 20 phút · 文法・読解 40 phút · 聴解 30 phút.',
+                    style: Zen.small.copyWith(locale: Zen.jaLocale)),
+                const SizedBox(height: 12),
+                for (final e in exams) ...[
+                  _ExamCard(
+                    exam: e,
+                    isNew: !services.repo.isBundled(e.id),
+                    inProgress: saved != null && saved['examId'] == e.id,
+                    onTap: () => saved != null && saved['examId'] == e.id ? Nav.resume(context) : Nav.openIntro(context, e.id),
+                  ),
+                  const SizedBox(height: 12),
                 ],
-              );
-            },
+                const SizedBox(height: 8),
+                ZenCard(
+                  color: Zen.subtle,
+                  borderColor: Zen.subtle,
+                  padding: const EdgeInsets.all(16),
+                  child: Row(children: [
+                    const Icon(Icons.cloud_sync_outlined, color: Zen.ink2),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'Đề mới được cập nhật tự động, không cần cập nhật app. Kéo xuống để kiểm tra ngay.'
+                        '${last == null ? '' : '\nKiểm tra lần cuối: ${_fmt(last)}'}',
+                        style: Zen.small,
+                      ),
+                    ),
+                  ]),
+                ),
+              ],
+            ),
           );
         },
       ),
     );
   }
+
+  static String _fmt(DateTime d) =>
+      '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')} ${d.day}/${d.month}';
 }
 
 class _ExamCard extends StatelessWidget {
-  const _ExamCard({required this.exam, required this.inProgress, required this.onTap});
+  const _ExamCard({required this.exam, required this.inProgress, required this.onTap, this.isNew = false});
 
   final ExamSummary exam;
+  final bool isNew;
   final bool inProgress;
   final VoidCallback onTap;
 
@@ -74,7 +113,7 @@ class _ExamCard extends StatelessWidget {
     if (inProgress) {
       status = const Tag('Đang làm dở', color: Zen.amber);
     } else if (best == null) {
-      status = const Tag('Chưa làm', color: Zen.ink2);
+      status = isNew ? const Tag('Mới', color: Zen.amber, filled: true) : const Tag('Chưa làm', color: Zen.ink2);
     } else if (best.passed) {
       status = Tag('合格 · ${best.total}/${N5Rules.totalMax}', color: Zen.green);
     } else {

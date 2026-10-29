@@ -1,21 +1,8 @@
 {
+ "schema": 1,
  "level": "N5",
  "exams": [
-  {
-   "id": "n5-01",
-   "title": "Đề chuẩn số 01",
-   "titleJa": "模擬試験 第1回",
-   "file": "assets/exams/n5/n5-01.json",
-   "questions": 67,
-   "minutes": 90
-  },
-  {
-   "id": "n5-02",
-   "title": "Đề chuẩn số 02",
-   "titleJa": "模擬試験 第2回",
-   "file": "assets/exams/n5/n5-02.json",
-   "questions": 67,
-   "minutes": 90
-  }
+  "n5-01.json",
+  "n5-02.json"
  ]
 }

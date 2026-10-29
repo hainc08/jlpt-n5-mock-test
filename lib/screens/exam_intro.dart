@@ -22,6 +22,9 @@ class ExamIntroScreen extends StatelessWidget {
       body: FutureBuilder<Exam>(
         future: services.repo.load(examId),
         builder: (context, snap) {
+          if (snap.hasError) {
+            return Center(child: Text('Không mở được đề này.', style: Zen.body.copyWith(color: Zen.ink2)));
+          }
           if (!snap.hasData) return const Center(child: CircularProgressIndicator());
           final exam = snap.data!;
           return Column(children: [

@@ -23,6 +23,9 @@ def patch_android():
     if manifest.exists():
         s = manifest.read_text(encoding="utf-8")
         s = re.sub(r'android:label="[^"]*"', f'android:label="{APP_NAME}"', s, count=1)
+        if "android.permission.INTERNET" not in s:
+            # Bản release cần quyền mạng để tải đề mới từ GitHub Pages.
+            s = re.sub(r"(<manifest[^>]*>\r?\n)", r'\1    <uses-permission android:name="android.permission.INTERNET"/>\n', s, count=1)
         if "TTS_SERVICE" not in s:
             tts = ('        <intent>\n'
                    '            <action android:name="android.intent.action.TTS_SERVICE"/>\n'

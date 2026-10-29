@@ -18,13 +18,13 @@ class ExamSummary {
     required this.minutes,
   });
 
-  factory ExamSummary.fromJson(Map<String, dynamic> j) => ExamSummary(
-        id: j['id'] as String,
-        title: j['title'] as String,
-        titleJa: j['titleJa'] as String,
-        file: j['file'] as String,
-        questions: j['questions'] as int,
-        minutes: j['minutes'] as int,
+  factory ExamSummary.fromExam(Exam e, {required String file}) => ExamSummary(
+        id: e.id,
+        title: e.title,
+        titleJa: e.titleJa,
+        file: file,
+        questions: e.totalQuestions,
+        minutes: e.totalMinutes,
       );
 }
 
