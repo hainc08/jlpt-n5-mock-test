@@ -1,6 +1,6 @@
 @echo off
 title JLPT N5 Thi Thu - Chrome
-cd /d D:\100.JLPT\jlpt_n5_mock_test
+cd /d "%~dp0"
 set PATH=C:\Users\admin\develop\bin;%PATH%
 echo [1/3] Them nen tang web ...
 call flutter create --platforms=web --org com.manabihub --project-name jlpt_mock_test . >nul

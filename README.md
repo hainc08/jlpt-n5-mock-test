@@ -36,12 +36,12 @@ CI (`.github/workflows/ci.yml`) chạy analyze, test và build APK ở mỗi l�
 Font Plus Jakarta Sans: SIL Open Font License 1.1.
 
 ## Cập nhật đề không cần build lại app
-App tải đề từ GitHub Pages: `https://hainc08.github.io/jlptkanjin5/exams/n5/` (thư mục `docs/exams/n5/` của repo `jlptkanjin5`).
-Thêm/sửa/xoá đề chỉ cần sửa JSON + `index.json` ở đó — xem `docs/exams/HUONG_DAN.md`.
+App tải đề từ GitHub Pages: `https://hainc08.github.io/jlpt-content/exams/n5/` (repo `jlpt-content`, thư mục `D:\100.JLPT\content`).
+Thêm/sửa/xoá đề chỉ cần sửa JSON + `index.json` ở đó — xem `exams/HUONG_DAN.md` trong repo đó.
 Xuất đề soạn bằng Python sang thư mục đó:
 
 ```bash
-python3 tools/build_exams.py --publish ../kanji_n5_flashcard/docs/exams
+python3 tools/build_exams.py --publish ../../content/exams
 ```
 
 Khi offline, app dùng đề đã tải lần trước hoặc đề đóng sẵn trong `assets/exams/`.

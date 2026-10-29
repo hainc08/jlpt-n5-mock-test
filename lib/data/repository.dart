@@ -25,7 +25,7 @@ class ExamRepository extends ChangeNotifier {
   })  : _bundle = bundle ?? rootBundle,
         _prefs = prefs,
         _client = client ?? http.Client(),
-        remoteBase = remoteBase ?? 'https://hainc08.github.io/jlptkanjin5/exams/$level/';
+        remoteBase = remoteBase ?? 'https://hainc08.github.io/jlpt-content/exams/$level/';
 
   /// Phiên bản cấu trúc dữ liệu app hiểu được. Đề có `minSchema` lớn hơn sẽ bị bỏ qua.
   static const supportedSchema = 1;

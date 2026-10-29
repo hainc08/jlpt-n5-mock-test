@@ -3,7 +3,7 @@
 Chạy:
   python3 tools/build_exams.py                          # sinh + kiểm tra đề đóng sẵn trong app
   python3 tools/build_exams.py --publish <thư mục docs>  # đồng thời xuất lên thư mục GitHub Pages
-        ví dụ: --publish ../kanji_n5_flashcard/docs/exams
+        ví dụ: --publish ../../content/exams
 """
 
 import importlib
@@ -24,7 +24,7 @@ MODULES = {"n5": ["n5_01", "n5_02"]}
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--publish", help="thư mục exams trên GitHub Pages (vd ../kanji_n5_flashcard/docs/exams)")
+    ap.add_argument("--publish", help="thư mục exams của repo jlpt-content (vd ../../content/exams)")
     args = ap.parse_args()
     all_errors = []
     for level, mods in MODULES.items():

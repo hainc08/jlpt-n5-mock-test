@@ -1,6 +1,6 @@
 @echo off
 title JLPT N5 Thi Thu - build
-cd /d D:\100.JLPT\jlpt_n5_mock_test
+cd /d "%~dp0"
 set PATH=C:\Users\admin\develop\bin;%PATH%
 if not exist _build mkdir _build
 del /q _build\*.txt _build\*.log 2>nul
