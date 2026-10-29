@@ -42,6 +42,13 @@ def patch_android():
                        s, count=1)
             g.write_text(s, encoding="utf-8")
 
+    # Kotlin incremental cache lỗi trên Windows khi project và pub cache khác ổ đĩa.
+    props = ROOT / "android/gradle.properties"
+    if props.exists():
+        p = props.read_text(encoding="utf-8")
+        if "kotlin.incremental" not in p:
+            props.write_text(p.rstrip() + "\nkotlin.incremental=false\n", encoding="utf-8")
+
     src = ROOT / "native/icons/android"
     res = ROOT / "android/app/src/main/res"
     if res.exists():
@@ -70,4 +77,4 @@ def patch_ios():
 if __name__ == "__main__":
     patch_android()
     patch_ios()
-    print("Đã cấu hình native:", APP_ID)
+    print("Native configured:", APP_ID)
