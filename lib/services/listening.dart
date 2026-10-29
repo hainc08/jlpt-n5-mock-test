@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -31,7 +30,7 @@ class ListeningPlayer extends ChangeNotifier {
     _ready = true;
     try {
       await _tts.awaitSpeakCompletion(true);
-      if (Platform.isIOS) {
+      if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
         // Vẫn phát tiếng khi iPhone bật chế độ im lặng.
         await _tts.setSharedInstance(true);
         await _tts.setIosAudioCategory(
