@@ -1,0 +1,52 @@
+require "json"
+
+default_platform(:android)
+
+# App đang xử lý: biến môi trường APP (n5, n4, ...). Cấu hình nằm ở apps/<app>/config.json,
+# nội dung store (mô tả, ảnh) ở apps/<app>/store/android/.
+def repo_root
+  d = Dir.pwd
+  d = File.dirname(d) until File.directory?(File.join(d, "apps")) || d == "/"
+  d
+end
+
+def app_dir
+  File.join(repo_root, "apps", ENV["APP"].to_s.empty? ? "n5" : ENV["APP"])
+end
+
+def cfg
+  @cfg ||= JSON.parse(File.read(File.join(app_dir, "config.json")))
+end
+
+platform :android do
+  # Đưa AAB lên track Internal testing (kèm mô tả store).
+  lane :internal do
+    meta = File.join(app_dir, "store/android")
+    upload_to_play_store(
+      package_name: cfg["BUNDLE_ID"],
+      track: "internal",
+      aab: File.join(repo_root, "build/app/outputs/bundle/release/app-release.aab"),
+      metadata_path: meta,
+      skip_upload_metadata: !File.directory?(meta),
+      skip_upload_changelogs: !File.directory?(meta),
+      release_status: ENV["PLAY_RELEASE_STATUS"].to_s.empty? ? "completed" : ENV["PLAY_RELEASE_STATUS"],
+      skip_upload_screenshots: Dir.glob(File.join(meta, "*/images/phoneScreenshots/*.png")).empty?,
+      skip_upload_images: Dir.glob(File.join(meta, "*/images/*.png")).empty?
+    )
+  end
+
+  # Đẩy bản đang ở Internal lên Production (Google sẽ review).
+  lane :production do
+    upload_to_play_store(
+      package_name: cfg["BUNDLE_ID"],
+      track: "internal",
+      track_promote_to: "production",
+      skip_upload_aab: true,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      release_status: "completed"
+    )
+  end
+end

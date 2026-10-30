@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../app_config.dart';
 import '../models.dart';
 
 /// Kho đề thi: đề đóng sẵn trong app + đề tải từ GitHub Pages.
@@ -20,12 +21,12 @@ class ExamRepository extends ChangeNotifier {
     AssetBundle? bundle,
     SharedPreferences? prefs,
     http.Client? client,
-    this.level = 'n5',
+    this.level = AppConfig.id,
     String? remoteBase,
   })  : _bundle = bundle ?? rootBundle,
         _prefs = prefs,
         _client = client ?? http.Client(),
-        remoteBase = remoteBase ?? 'https://hainc08.github.io/jlpt-content/exams/$level/';
+        defaultRemoteBase = remoteBase ?? 'https://hainc08.github.io/jlpt-content/exams/$level/';
 
   /// Phiên bản cấu trúc dữ liệu app hiểu được. Đề có `minSchema` lớn hơn sẽ bị bỏ qua.
   static const supportedSchema = 1;
@@ -37,7 +38,69 @@ class ExamRepository extends ChangeNotifier {
   final SharedPreferences? _prefs;
   final http.Client _client;
   final String level;
-  final String remoteBase;
+
+  /// Nguồn đề mặc định (có thể đổi trong Cài đặt — xem [setRemoteBase]).
+  final String defaultRemoteBase;
+
+  String get _kBase => 'setting_remote_base_$level';
+
+  /// Nguồn đề đang dùng: địa chỉ người dùng đặt trong Cài đặt, hoặc mặc định.
+  String get remoteBase => _prefs?.getString(_kBase) ?? defaultRemoteBase;
+
+  bool get usesCustomBase => _prefs?.getString(_kBase) != null;
+
+  /// Chuẩn hoá địa chỉ nguồn: bắt buộc http(s), tự thêm `/` cuối. Trả về null nếu không hợp lệ.
+  static String? normalizeBase(String input) {
+    final s = input.trim();
+    final uri = Uri.tryParse(s);
+    if (uri == null || !(uri.scheme == 'http' || uri.scheme == 'https') || uri.host.isEmpty) return null;
+    final noQuery = s.split(RegExp(r'[?#]')).first;
+    return noQuery.endsWith('/') ? noQuery : '$noQuery/';
+  }
+
+  /// Đổi nguồn đề rồi đồng bộ ngay. `null` hoặc địa chỉ mặc định = quay về mặc định.
+  /// Trả về false nếu địa chỉ không hợp lệ.
+  Future<bool> setRemoteBase(String? url) async {
+    final prefs = _prefs;
+    if (prefs == null) return false;
+    if (url == null || url.trim().isEmpty) {
+      await prefs.remove(_kBase);
+    } else {
+      final norm = normalizeBase(url);
+      if (norm == null) return false;
+      if (norm == defaultRemoteBase) {
+        await prefs.remove(_kBase);
+      } else {
+        await prefs.setString(_kBase, norm);
+      }
+    }
+    // Quên mốc đồng bộ + ETag cũ để lần tải tới lấy mới hoàn toàn từ nguồn mới.
+    await prefs.remove(_kLastSync);
+    for (final f in _cachedFiles) {
+      await prefs.remove(_kEtag(f));
+    }
+    notifyListeners();
+    return true;
+  }
+
+  /// Xoá đề đã tải về, quay về đề đóng sẵn trong app. (Lịch sử thi của đề đã tải sẽ không mở lại được.)
+  Future<void> clearDownloaded() async {
+    final prefs = _prefs;
+    if (prefs == null) return;
+    for (final f in _cachedFiles) {
+      await prefs.remove(_kSrc(f));
+      await prefs.remove(_kEtag(f));
+    }
+    await prefs.remove(_kFiles);
+    await prefs.remove(_kKnown);
+    await prefs.remove(_kLastSync);
+    lastError = null;
+    _byId.clear();
+    _idByFile.clear();
+    _ready = false;
+    await init();
+    notifyListeners();
+  }
 
   String get _kFiles => 'remote_files_$level';
   String get _kKnown => 'remote_known_$level';

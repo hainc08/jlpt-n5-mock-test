@@ -1,0 +1,222 @@
+name: Release
+
+# Repo chứa nhiều app (apps/n5, apps/n4, ...). Chọn app bằng tag hoặc ô "app".
+# 1) Đẩy tag <app>-v<phiên bản>  (vd: git tag n5-v1.0.0 && git push origin n5-v1.0.0)
+#    → build và upload: iOS lên TestFlight, Android lên track Internal testing.
+# 2) Actions → Release → Run workflow, chọn app, tick "submit_review"
+#    → iOS gửi Apple review, Android đẩy từ Internal lên Production.
+# Secrets/Variables dùng chung cho mọi app (xem RELEASE.md).
+on:
+  push:
+    tags: ['*-v*']
+  workflow_dispatch:
+    inputs:
+      app:
+        description: 'App (tên thư mục trong apps/)'
+        type: choice
+        options: [n5, n4, n3, n2, n1]
+        default: n5
+      submit_review:
+        description: 'Gửi review (iOS) và đẩy lên Production (Android)'
+        type: boolean
+        default: false
+      platform:
+        description: 'Nền tảng'
+        type: choice
+        options: [both, android, ios]
+        default: both
+
+jobs:
+  # Xác định app cần build từ tag hoặc ô chọn, đọc apps/<app>/config.json.
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      app: ${{ steps.app.outputs.app }}
+      bundle_id: ${{ steps.app.outputs.bundle_id }}
+      version: ${{ steps.app.outputs.version }}
+      ios_profile: ${{ steps.app.outputs.ios_profile }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: app
+        env:
+          INPUT_APP: ${{ inputs.app }}
+        run: |
+          if [ "$GITHUB_REF_TYPE" = "tag" ]; then
+            TAG="$GITHUB_REF_NAME"
+            APP="${TAG%%-v*}"; TAG_VERSION="${TAG#*-v}"
+          else
+            APP="$INPUT_APP"; TAG_VERSION=""
+          fi
+          [ -f "apps/$APP/config.json" ] || { echo "::error::Không có apps/$APP/config.json"; exit 1; }
+          VERSION=$(python3 tools/app_info.py "$APP" VERSION)
+          if [ -n "$TAG_VERSION" ] && [ "$TAG_VERSION" != "$VERSION" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME nhưng apps/$APP/config.json đang ghi VERSION=$VERSION"; exit 1
+          fi
+          echo "app=$APP" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "bundle_id=$(python3 tools/app_info.py "$APP" BUNDLE_ID)" >> "$GITHUB_OUTPUT"
+          echo "ios_profile=$(python3 tools/app_info.py "$APP" IOS_PROFILE)" >> "$GITHUB_OUTPUT"
+          echo "### App: $APP · $(python3 tools/app_info.py "$APP" BUNDLE_ID) · v$VERSION" >> "$GITHUB_STEP_SUMMARY"
+
+  android-build:
+    needs: setup
+    if: ${{ !inputs.submit_review && inputs.platform != 'ios' }}
+    runs-on: ubuntu-latest
+    env:
+      HAS_PLAY_KEY: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON != '' }}
+      APP: ${{ needs.setup.outputs.app }}
+      BUNDLE_ID: ${{ needs.setup.outputs.bundle_id }}
+      APP_VERSION: ${{ needs.setup.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - uses: ruby/setup-ruby@v1
+        with: { ruby-version: '3.3' }
+      - run: gem install fastlane --no-document
+      - name: Sinh thư mục nền tảng và cấu hình native
+        run: |
+          flutter create --org com.manabihub --project-name jlpt_mock_test --platforms=android,ios .
+          python3 tools/configure_native.py "$APP"
+      - name: Chuẩn bị khóa ký và service account
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          PLAY_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: |
+          printf '%s' "$KEYSTORE_BASE64" | tr -d ' \r\n"' | base64 -d > android/app/upload-keystore.jks
+          echo "Keystore: $(stat -c%s android/app/upload-keystore.jks) bytes, sha256 $(sha256sum android/app/upload-keystore.jks | cut -c1-16)"
+          head -c1 android/app/upload-keystore.jks | od -An -tx1 | grep -q 30 || { echo "::error::ANDROID_KEYSTORE_BASE64 không phải keystore hợp lệ, hãy dán lại nội dung file keystore_base64.txt"; exit 1; }
+          printf 'storePassword=%s\nkeyPassword=%s\nkeyAlias=%s\nstoreFile=upload-keystore.jks\n' \
+            "$KEYSTORE_PASSWORD" "$KEY_PASSWORD" "$KEY_ALIAS" > android/key.properties
+          printf '%s' "$PLAY_JSON" > android/play.json
+      - run: python3 tools/check_metadata.py
+      - run: flutter pub get
+      - run: flutter test --dart-define-from-file=apps/$APP/config.json
+      - run: >
+          flutter build appbundle --release
+          --build-name="$APP_VERSION" --build-number=${{ github.run_number }}
+          --dart-define-from-file=apps/$APP/config.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP }}-release-aab
+          path: build/app/outputs/bundle/release/app-release.aab
+      - name: Upload lên Google Play (Internal testing)
+        if: ${{ env.HAS_PLAY_KEY == 'true' }}
+        working-directory: android
+        env:
+          PLAY_RELEASE_STATUS: ${{ vars.PLAY_RELEASE_STATUS }}
+        run: fastlane internal
+
+  ios-build:
+    needs: setup
+    if: ${{ !inputs.submit_review && inputs.platform != 'android' }}
+    runs-on: macos-latest
+    env:
+      APPLE_TEAM_ID: ${{ vars.APPLE_TEAM_ID }}
+      APP: ${{ needs.setup.outputs.app }}
+      BUNDLE_ID: ${{ needs.setup.outputs.bundle_id }}
+      APP_VERSION: ${{ needs.setup.outputs.version }}
+      IOS_PROFILE_NAME: ${{ needs.setup.outputs.ios_profile }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable, cache: true }
+      - name: Sinh thư mục nền tảng và cấu hình native
+        run: |
+          flutter create --org com.manabihub --project-name jlpt_mock_test --platforms=android,ios .
+          python3 tools/configure_native.py "$APP"
+          python3 tools/write_export_options.py "$APP"
+      - name: Cài chứng chỉ phân phối
+        env:
+          P12: ${{ secrets.IOS_DIST_CERT_P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.IOS_DIST_CERT_PASSWORD }}
+        run: |
+          KEYCHAIN=$RUNNER_TEMP/build.keychain-db
+          KEYCHAIN_PASSWORD=$(openssl rand -hex 16)
+          printf '%s' "$P12" | tr -d ' \r\n"' | base64 --decode > $RUNNER_TEMP/cert.p12
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN
+          security set-keychain-settings -lut 21600 $KEYCHAIN
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN
+          security import $RUNNER_TEMP/cert.p12 -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN
+          security list-keychain -d user -s $KEYCHAIN
+      - name: Tải provisioning profile từ Apple (bằng API key)
+        working-directory: ios
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        run: fastlane fetch_profile
+      - run: flutter pub get
+      - name: Chuyển sang ký thủ công
+        working-directory: ios
+        run: fastlane prepare_signing
+      - run: >
+          flutter build ipa --release
+          --build-name="$APP_VERSION" --build-number=${{ github.run_number }}
+          --dart-define-from-file=apps/$APP/config.json
+          --export-options-plist=ios/ExportOptions.plist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP }}-release-ipa
+          path: build/ios/ipa/*.ipa
+      - name: Upload lên TestFlight
+        working-directory: ios
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        run: IPA_PATH=$(ls $GITHUB_WORKSPACE/build/ios/ipa/*.ipa | head -1) fastlane beta
+
+  android-submit:
+    needs: setup
+    if: ${{ inputs.submit_review && inputs.platform != 'ios' }}
+    runs-on: ubuntu-latest
+    env:
+      APP: ${{ needs.setup.outputs.app }}
+      BUNDLE_ID: ${{ needs.setup.outputs.bundle_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with: { ruby-version: '3.3' }
+      - run: gem install fastlane --no-document
+      - name: Chuẩn bị thư mục android/fastlane
+        run: |
+          mkdir -p android
+          cp -r tools/fastlane/android android/fastlane
+      - env:
+          PLAY_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+        run: printf '%s' "$PLAY_JSON" > android/play.json
+      - name: Đẩy Internal → Production
+        working-directory: android
+        run: fastlane production
+
+  ios-submit:
+    needs: setup
+    if: ${{ inputs.submit_review && inputs.platform != 'android' }}
+    runs-on: macos-latest
+    env:
+      APP: ${{ needs.setup.outputs.app }}
+      BUNDLE_ID: ${{ needs.setup.outputs.bundle_id }}
+      APP_VERSION: ${{ needs.setup.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/check_metadata.py
+      - name: Chuẩn bị thư mục ios/fastlane
+        run: |
+          mkdir -p ios
+          cp -r tools/fastlane/ios ios/fastlane
+      - name: Gửi Apple review
+        working-directory: ios
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8_BASE64: ${{ secrets.ASC_KEY_P8_BASE64 }}
+        run: |
+          echo "App $APP ($BUNDLE_ID) phiên bản $APP_VERSION"
+          fastlane release

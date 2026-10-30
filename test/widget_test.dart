@@ -21,11 +21,33 @@ Future<Services> makeServices() async {
 
 void main() {
   testWidgets('trang chủ hiển thị', (tester) async {
-    final services = await makeServices();
+    final services = (await tester.runAsync(makeServices))!;
     await tester.pumpWidget(MockTestApp(services: services));
     await tester.pump();
     expect(find.text('Thi thử JLPT N5'), findsOneWidget);
     expect(find.text('Trang chủ'), findsOneWidget);
+
+    await tester.pumpWidget(const SizedBox());
+  });
+
+  testWidgets('cài đặt: mở từ trang chủ, địa chỉ sai báo lỗi, đúng thì lưu', (tester) async {
+    final services = (await tester.runAsync(makeServices))!;
+    await tester.pumpWidget(MockTestApp(services: services));
+    await tester.pump();
+
+    await tester.tap(find.byTooltip('Cài đặt'));
+    await tester.pumpAndSettle();
+    expect(find.text('Nguồn đề thi'), findsOneWidget);
+    expect(find.text('Đang dùng địa chỉ mặc định.'), findsOneWidget);
+
+    await tester.enterText(find.byType(TextField), 'abc');
+    await tester.tap(find.text('Lưu & đồng bộ'));
+    await tester.pump();
+    await tester.pump();
+    expect(find.textContaining('Địa chỉ không hợp lệ'), findsOneWidget);
+    expect(services.repo.usesCustomBase, isFalse);
+
+    await tester.pumpWidget(const SizedBox());
   });
 
   testWidgets('phòng thi: chọn đáp án và chuyển câu', (tester) async {
@@ -33,7 +55,7 @@ void main() {
     tester.view.devicePixelRatio = 2.75;
     addTearDown(tester.view.reset);
 
-    final services = await makeServices();
+    final services = (await tester.runAsync(makeServices))!;
     final exam = loadExams().first;
     final session = ExamSession(exam);
     await tester.pumpWidget(AppScope(

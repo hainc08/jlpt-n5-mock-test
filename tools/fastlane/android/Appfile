@@ -1,0 +1,2 @@
+json_key_file("play.json")
+package_name(ENV["BUNDLE_ID"].to_s.empty? ? "com.manabihub.jlptn5mock" : ENV["BUNDLE_ID"])

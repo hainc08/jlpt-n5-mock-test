@@ -20,10 +20,10 @@ call flutter pub get >> _build\build.log 2>&1
 call flutter analyze --no-fatal-infos >> _build\build.log 2>&1
 echo ANALYZE %ERRORLEVEL%>> _build\status.txt
 echo [4/5] flutter test ...
-call flutter test >> _build\build.log 2>&1
+call flutter test --dart-define-from-file=apps\n5\config.json >> _build\build.log 2>&1
 echo TEST %ERRORLEVEL%>> _build\status.txt
 echo [5/5] flutter build apk --release ...
-call flutter build apk --release >> _build\build.log 2>&1
+call flutter build apk --release --dart-define-from-file=apps\n5\config.json >> _build\build.log 2>&1
 echo BUILD %ERRORLEVEL%>> _build\status.txt
 echo DONE>> _build\status.txt
 echo.

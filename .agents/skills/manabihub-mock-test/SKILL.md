@@ -11,7 +11,9 @@ App Flutter thi thử JLPT cho người Việt, giao diện theo design system *
 - `lib/models.dart` Exam → Section(scoreGroup) → Mondai(type, passage, table) → Question(options, answer, explanation, script, scene, audioOptions, order/star).
 - `lib/logic/scoring.dart` luật chấm; `lib/logic/session.dart` đồng hồ từng phần + lưu bài dở; `lib/services/listening.dart` nghe hiểu bằng TTS (flutter_tts, `ja-JP`, cao độ N 1.0 / M 0.78 / F 1.3; không dùng `dart:io` để chạy được web).
 - `lib/data/repository.dart`: đề đóng sẵn `assets/exams/<level>/` + đề từ `https://hainc08.github.io/jlpt-content/exams/<level>/` (ETag, cache trong SharedPreferences, đề bị gỡ khỏi index vẫn mở được lịch sử; tự đồng bộ ≤3 giờ/lần, kéo làm mới ở màn Chọn đề).
-- `android/ ios/ web/` sinh bằng `flutter create`, không commit; `tools/configure_native.py` đặt tên, bundle `com.manabihub.jlpt<level>mock`, icon, quyền INTERNET + `<queries>` TTS_SERVICE, `kotlin.incremental=false`.
+- **Mỗi cấp một app riêng, chung một repo** `hainc08/jlpt-n5-mock-test` (như `jlptkanjin5`): `apps/<n5…n1>/config.json` (+ `icons/`, `store/`), `lib/` dùng chung, `lib/app_config.dart` đọc `APP/LEVEL/APP_NAME/VERSION` từ `--dart-define-from-file=apps/<app>/config.json` (mặc định n5). Đề đóng sẵn `assets/exams/<level>/`, repository dùng `AppConfig.id` làm cấp.
+- `android/ ios/ web/` sinh bằng `flutter create`, không commit; `tools/configure_native.py <app>` đặt tên, bundle `com.manabihub.jlpt<level>mock`, icon (`apps/<app>/icons`), quyền INTERNET + `<queries>` TTS_SERVICE, ký release bằng `android/key.properties`, chép `tools/fastlane/{android,ios}` vào `android/fastlane`, `ios/fastlane`; `kotlin.incremental=false`.
+- Cài đặt trong app (`lib/screens/settings.dart`): đổi nguồn đề (prefs `setting_remote_base_<level>`), đồng bộ thủ công, xoá đề đã tải.
 - Thiết kế: token màu/chữ trong `lib/theme.dart` (vermilion #B9343F, xanh tre #15803D, nền washi #F7F7F4, Plus Jakarta Sans đóng gói trong assets/fonts; chữ Nhật dùng `Zen.ja()` có `locale: ja` để hiện đúng Kanji Nhật).
 
 ## Cấu trúc đề chuẩn
@@ -36,8 +38,14 @@ Số câu từng dạng 問題 thay đổi theo năm — tra lại trang chính 
 - Trong container (không có Flutter): type-check bằng bộ phân tích dựng tay (flutter stable clone + sky_engine tự ráp + Dart SDK từ conda-forge + package từ GitHub dart-lang/*; stub `shared_preferences`) → `dart analyze lib test`. Không khẳng định "test đã qua" khi chưa chạy `flutter test` thật.
 - Test hiện có: dữ liệu đề (cấu trúc, đáp án, chấm điểm), session (nộp phần, lưu/khôi phục), repository (thêm/sửa/xoá đề, offline, file hỏng), widget (trang chủ, phòng thi).
 
+## CI/CD và thêm cấp mới (đọc `RELEASE.md` trong repo)
+- `ci.yml` (push main / PR): job `content` (đề sinh lại phải trùng bản commit), job `apps` lấy danh sách cấp từ `apps/*/config.json`, job `check` chạy matrix theo danh sách đó: `flutter create` → `configure_native.py <app>` → analyze → `flutter test --dart-define-from-file` → build APK debug. **Thêm cấp = thêm thư mục `apps/<cấp>/`, không sửa `ci.yml`.**
+- `release.yml`: tag `<app>-v<VERSION>` (khớp `config.json`) hoặc Run workflow chọn app → AAB lên Play Internal, IPA lên TestFlight; tick `submit_review` → Apple review + Play Production. Fastlane dùng chung ở `tools/fastlane/` (đọc `apps/$APP/config.json`); thiếu `apps/<app>/store/...` thì bỏ qua metadata thay vì lỗi.
+- **GitHub Secrets dùng chung mọi app nhưng không tự chia sẻ giữa các repo**: mỗi repo mới phải dán lại cùng bộ secret (ANDROID_KEYSTORE_*, PLAY_SERVICE_ACCOUNT_JSON, ASC_*, IOS_DIST_CERT_*). Khoá thật ở `D:\100.JLPT\_secrets`, không in ra chat.
+- Thêm cấp mới (N4…N1): chép `apps/n5` → `apps/<cấp>`, sửa `config.json` (BUNDLE_ID `com.manabihub.jlpt<cấp>mock`, IOS_PROFILE `JLPT <CẤP> Mock AppStore`, VERSION `1.0.0`, AdMob trống), thay icon, thêm nội dung đề + luật chấm theo cấp, thêm `<cấp>` vào `options` của `release.yml`, rồi làm việc tay một lần trên AdMob/Apple/Play (xem skill `manabihub-app-launch`). Mỗi quy trình đổi phải cập nhật cả skill này (bản `.agents` và bản trên claude.ai) lẫn `RELEASE.md`.
+
 ## Đồng bộ code giữa container và D:
 Bản trên D: là gốc. Lấy về: device_bash `git bundle create ../../_archive/x.bundle <branch>` → device_stage_files → `git fetch`/`reset` trong container. Gửi đi: `git bundle create … <base>..<branch>` → device_commit_files vào `D:\100.JLPT\_archive` → device_bash `git pull --ff-only`. Xin quyền xoá `D:\100.JLPT` mỗi phiên cho file lock của git.
 
-## Việc còn lại (tính tới 29/10/2026)
-Chuyển sang nhiều cấp (`apps/<level>/config.json` như app Kanji, luật chấm theo cấp), AdMob, store listing, repo GitHub + CI, rồi phát hành theo skill `manabihub-app-launch` / `flutter-store-release`.
+## Việc còn lại (tính tới 30/10/2026)
+Đã có: màn Cài đặt, cấu trúc `apps/<cấp>/`, CI matrix, release + fastlane (chưa chạy thật trên GitHub). Còn: AdMob (lib + mã thật), luật chấm/cấu trúc đề theo cấp N4–N1 (hiện `N5Rules` cố định), store listing + trang chính sách, tạo app trên Apple/Play, dán secrets vào repo, chạy Release lần đầu.

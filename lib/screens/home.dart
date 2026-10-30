@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app.dart';
+import '../app_config.dart';
 import '../logic/scoring.dart';
 import '../models.dart';
 import '../services/storage.dart';
@@ -8,6 +9,7 @@ import '../theme.dart';
 import '../widgets/common.dart';
 import 'history.dart';
 import 'nav.dart';
+import 'settings.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key, required this.onTab});
@@ -37,10 +39,15 @@ class HomeScreen extends StatelessWidget {
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                         Text('こんにちは！', style: Zen.ja(14, color: Zen.ink2, height: 1.3)),
                         const SizedBox(height: 2),
-                        const Text('Thi thử JLPT N5', style: Zen.hXL),
+                        Text('Thi thử JLPT ${AppConfig.level}', style: Zen.hXL),
                       ]),
                     ),
                     const N5Badge(),
+                    IconButton(
+                      tooltip: 'Cài đặt',
+                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())),
+                      icon: const Icon(Icons.settings_outlined, color: Zen.ink2),
+                    ),
                   ]),
                   const SizedBox(height: 4),
                   Text('Đề chuẩn cấu trúc kỳ thi thật · chấm điểm · giải thích tiếng Việt', style: Zen.small),
@@ -95,7 +102,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ]),
-                  const SectionTitle('Cấu trúc đề thi N5'),
+                  SectionTitle('Cấu trúc đề thi ${AppConfig.level}'),
                   const _StructureCard(),
                 ],
               );

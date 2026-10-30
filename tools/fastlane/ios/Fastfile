@@ -1,0 +1,94 @@
+require "json"
+
+default_platform(:ios)
+
+# App đang xử lý: biến môi trường APP (n5, n4, ...). Cấu hình nằm ở apps/<app>/config.json,
+# nội dung store ở apps/<app>/store/ios/.
+def repo_root
+  d = Dir.pwd
+  d = File.dirname(d) until File.directory?(File.join(d, "apps")) || d == "/"
+  d
+end
+
+def app_id
+  ENV["APP"].to_s.empty? ? "n5" : ENV["APP"]
+end
+
+def app_dir
+  File.join(repo_root, "apps", app_id)
+end
+
+def cfg
+  @cfg ||= JSON.parse(File.read(File.join(app_dir, "config.json")))
+end
+
+def profile_name
+  ENV["IOS_PROFILE_NAME"].to_s.empty? ? cfg["IOS_PROFILE"] : ENV["IOS_PROFILE_NAME"]
+end
+
+platform :ios do
+  def asc_key
+    app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_content: ENV["ASC_KEY_P8_BASE64"],
+      is_key_content_base64: true
+    )
+  end
+
+  # Tải provisioning profile App Store có sẵn trên Apple Developer và cài vào máy build.
+  lane :fetch_profile do
+    get_provisioning_profile(
+      api_key: asc_key,
+      app_identifier: cfg["BUNDLE_ID"],
+      readonly: true,
+      provisioning_name: profile_name,
+      ignore_profiles_with_different_name: true,
+      skip_certificate_verification: true
+    )
+  end
+
+  # Chuyển target Runner sang ký thủ công bằng chứng chỉ + profile phân phối.
+  lane :prepare_signing do
+    update_code_signing_settings(
+      path: "Runner.xcodeproj",
+      use_automatic_signing: false,
+      team_id: ENV["APPLE_TEAM_ID"].to_s.empty? ? "SLR7396ZXZ" : ENV["APPLE_TEAM_ID"],
+      targets: ["Runner"],
+      build_configurations: ["Release"],
+      code_sign_identity: "Apple Distribution",
+      profile_name: profile_name,
+      bundle_identifier: cfg["BUNDLE_ID"]
+    )
+  end
+
+  # Đưa IPA lên TestFlight.
+  lane :beta do
+    upload_to_testflight(
+      api_key: asc_key,
+      app_identifier: cfg["BUNDLE_ID"],
+      ipa: ENV["IPA_PATH"],
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  # Cập nhật nội dung store + screenshot rồi gửi review (bản build mới nhất của phiên bản).
+  lane :release do
+    screenshots = File.join(app_dir, "store/ios/screenshots")
+    deliver(
+      api_key: asc_key,
+      app_identifier: cfg["BUNDLE_ID"],
+      app_version: ENV["APP_VERSION"].to_s.empty? ? cfg["VERSION"] : ENV["APP_VERSION"],
+      metadata_path: File.join(app_dir, "store/ios/metadata"),
+      skip_metadata: !File.directory?(File.join(app_dir, "store/ios/metadata")),
+      screenshots_path: screenshots,
+      skip_binary_upload: true,
+      skip_screenshots: Dir.glob(File.join(screenshots, "**/*.png")).empty?,
+      overwrite_screenshots: true,
+      submit_for_review: true,
+      automatic_release: false,
+      force: true,
+      run_precheck_before_submit: false
+    )
+  end
+end

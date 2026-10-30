@@ -1,42 +1,58 @@
-name: mock-test-ci
+name: CI
 
+# Kiểm tra mỗi lần push vào main / mở PR: dữ liệu đề, phân tích, test, build thử APK debug.
+# Danh sách app lấy tự động từ apps/*/config.json — thêm cấp mới chỉ cần thêm thư mục apps/<cấp>/,
+# không phải sửa file này.
 on:
   push:
+    branches: [main]
+  pull_request:
   workflow_dispatch:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build-android:
+  # Đề sinh lại từ tools/content phải trùng bản đã commit trong assets/exams.
+  content:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
-
-      - name: Kiểm tra dữ liệu đề (sinh lại JSON phải trùng với bản commit)
+      - name: Kiểm tra dữ liệu đề
         run: |
           python3 tools/build_exams.py
           git diff --exit-code assets/exams
 
+  apps:
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.list.outputs.list }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: list
+        run: echo "list=$(python3 tools/app_info.py --list | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().split()))')" >> "$GITHUB_OUTPUT"
+
+  check:
+    needs: apps
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.apps.outputs.list) }}
+    steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
+        with: { distribution: temurin, java-version: '17' }
       - uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
-
+        with: { channel: stable, cache: true }
       - name: Sinh thư mục nền tảng và cấu hình native
         run: |
-          flutter create --platforms=android,ios --org com.manabihub --project-name jlpt_mock_test .
-          python3 tools/configure_native.py
-
+          flutter create --org com.manabihub --project-name jlpt_mock_test --platforms=android,ios .
+          python3 tools/configure_native.py ${{ matrix.app }}
       - run: flutter pub get
       - run: flutter analyze --no-fatal-infos
-      - run: flutter test
-      - run: flutter build apk --release
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: jlpt-n5-mock-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+      - run: flutter test --dart-define-from-file=apps/${{ matrix.app }}/config.json
+      - run: python3 tools/check_metadata.py
+      - run: flutter build apk --debug --dart-define-from-file=apps/${{ matrix.app }}/config.json

@@ -9,14 +9,17 @@
 
 ## Tổng quan
 App Flutter thi thử JLPT, giao diện theo design system **Zen Vermilion Study** (Stitch project `13594785216952493333` "JLPT N5 Thi Thử").
-Bundle `com.manabihub.jlptn5mock`, tên "JLPT N5 Thi Thử". Chưa có repo GitHub, chưa phát hành, chưa gắn AdMob.
+Bundle `com.manabihub.jlptn5mock`, tên "JLPT N5 Thi Thử". Repo: https://github.com/hainc08/jlpt-n5-mock-test (một repo cho cả N5–N1, **mỗi cấp một app riêng**). Chưa phát hành, chưa gắn AdMob.
 
 ## Mã nguồn
 - `lib/models.dart` (Exam/Section/Mondai/Question), `lib/logic/scoring.dart` (luật N5: 言語知識・読解 0–120 liệt 38, 聴解 0–60 liệt 19, đỗ ≥80), `lib/logic/session.dart` (đồng hồ từng phần, lưu bài dở).
 - `lib/data/repository.dart`: đề đóng sẵn (`assets/exams/n5/`) + đề tải từ `https://hainc08.github.io/jlpt-content/exams/<level>/` (ETag, cache offline, đề bị gỡ vẫn xem lại được lịch sử). Tự đồng bộ ≤ 3 giờ/lần, kéo làm mới ở màn Chọn đề.
 - `lib/services/listening.dart`: nghe hiểu bằng TTS tiếng Nhật (flutter_tts), cao độ khác nhau cho N/M/F.
+- Cài đặt (`lib/screens/settings.dart`, mở bằng bánh răng ở home): đổi nguồn đề (lưu prefs `setting_remote_base_<level>`, `ExamRepository.setRemoteBase`), đồng bộ thủ công, xoá đề đã tải (`clearDownloaded`).
 - Màn: home, exam_list, exam_intro, exam_room, result, review, practice (14 dạng 問題), notebook, history.
-- `android/`, `ios/`, `web/` do `flutter create` sinh ra (không commit); `tools/configure_native.py` đặt tên, bundle, icon, quyền INTERNET + TTS_SERVICE, `kotlin.incremental=false` (lỗi cache khác ổ đĩa trên Windows).
+- `android/`, `ios/`, `web/` do `flutter create` sinh ra (không commit); `tools/configure_native.py <app>` đặt tên, bundle, icon, quyền INTERNET + TTS_SERVICE, ký release, chép fastlane, `kotlin.incremental=false` (lỗi cache khác ổ đĩa trên Windows).
+- Cấu trúc nhiều app: `apps/<n5…n1>/config.json` (+ `icons/`, `store/`), `lib/app_config.dart` đọc cấu hình qua `--dart-define-from-file`. Hiện chỉ có `apps/n5`.
+- CI/CD: `.github/workflows/ci.yml` (matrix tự lấy từ `apps/*/config.json`) và `release.yml` (tag `<app>-v<VERSION>`; chọn app; submit_review). Fastlane dùng chung ở `tools/fastlane/`. Secrets dùng chung nhưng phải dán vào từng repo. Chi tiết + cách thêm cấp mới: `RELEASE.md`.
 
 ## Nội dung đề
 - Soạn bằng Python DSL: `tools/content/n5_01.py`, `n5_02.py` (67 câu/đề, đáp án đúng viết đầu tiên, script tự xáo). Câu hỏi tự soạn, không chép đề thật.
@@ -25,7 +28,8 @@ Bundle `com.manabihub.jlptn5mock`, tên "JLPT N5 Thi Thử". Chưa có repo GitH
 ## Build / chạy (Windows)
 - `BUILD_N5.bat`: flutter create → configure_native → analyze → test → build APK (log `_build\build.log`).
 - `RUN_WEB.bat`: chạy trên Chrome.
-- Lần build gần nhất: analyze sạch, 16 test qua; APK lỗi Kotlin cache (đã sửa, chưa build lại). Test repository (6 test) chưa chạy trên máy thật.
+- Lần build gần nhất (2026-10-30): `flutter clean` → analyze sạch, 22/22 test qua (gồm 6 test repository), APK release build được (~49 MB, `build\app\outputs\flutter-apk\app-release.apk`). Test widget dùng `tester.runAsync(makeServices)` — gọi I/O thật trong FakeAsync làm treo khi chạy cả file.
+- Chưa làm: chạy thử thủ công trên Chrome (`RUN_WEB.bat`) và điện thoại thật (nhất là phần nghe TTS).
 
 ## Việc tiếp theo
 1. Dời thư mục vào `D:\100.JLPT\apps\mock_test` (đang bị khoá vì cửa sổ đang mở), chạy `flutter clean`.

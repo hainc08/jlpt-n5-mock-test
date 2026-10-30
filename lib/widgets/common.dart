@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app.dart';
+import '../app_config.dart';
 import '../models.dart';
 import '../theme.dart';
 
@@ -63,7 +64,7 @@ class N5Badge extends StatelessWidget {
   const N5Badge({super.key});
 
   @override
-  Widget build(BuildContext context) => const Tag('N5', color: Zen.sage, filled: true);
+  Widget build(BuildContext context) => const Tag(AppConfig.level, color: Zen.sage, filled: true);
 }
 
 /// Văn bản tiếng Nhật có hỗ trợ: {gạch chân}, ［1］ ô trống, ★.

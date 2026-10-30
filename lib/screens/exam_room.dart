@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../app.dart';
+import '../app_config.dart';
 import '../logic/scoring.dart';
 import '../logic/session.dart';
 import '../services/storage.dart';
@@ -263,7 +264,7 @@ class _ExamRoomScreenState extends State<ExamRoomScreen> with WidgetsBindingObse
         title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text('Phần ${s.sectionIndex + 1}: ${s.section.titleJa}',
               style: Zen.ja(15, weight: FontWeight.w700, height: 1.3), maxLines: 1, overflow: TextOverflow.ellipsis),
-          Text('${s.exam.title} · JLPT N5', style: Zen.small, maxLines: 1, overflow: TextOverflow.ellipsis),
+          Text('${s.exam.title} · JLPT ${AppConfig.level}', style: Zen.small, maxLines: 1, overflow: TextOverflow.ellipsis),
         ]),
         actions: [
           IconButton(

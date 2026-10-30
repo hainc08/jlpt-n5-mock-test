@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'app_config.dart';
 import 'data/repository.dart';
 import 'screens/root_shell.dart';
 import 'services/listening.dart';
@@ -37,7 +38,7 @@ class MockTestApp extends StatelessWidget {
     return AppScope(
       services: services,
       child: MaterialApp(
-        title: 'JLPT N5 Thi Thử',
+        title: AppConfig.name,
         debugShowCheckedModeBanner: false,
         theme: Zen.theme,
         home: const RootShell(),

@@ -1,0 +1,1 @@
+app_identifier(ENV["BUNDLE_ID"].to_s.empty? ? "com.manabihub.jlptn5mock" : ENV["BUNDLE_ID"])

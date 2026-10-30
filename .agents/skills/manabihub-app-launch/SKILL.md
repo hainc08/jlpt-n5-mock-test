@@ -7,6 +7,15 @@ description: "Thêm và phát hành một app học tiếng Nhật mới của M
 
 Mọi app Kanji JLPT nằm chung một repo: `https://github.com/hainc08/jlptkanjin5` (bản làm việc ở máy người dùng: `D:\100.JLPT\apps\kanji_flashcard`, người dùng tự `git push`). **Không tạo repo mới cho mỗi app.** Code `lib/` dùng chung; mỗi app là một thư mục `apps/<app>/`.
 
+## Quy tắc chung cho mọi họ app ManabiHub (Kanji, Thi Thử, …)
+Mỗi họ app một repo, **mỗi cấp một app riêng** trong `apps/<cấp>/`; code dùng chung. Họ app Thi Thử (`hainc08/jlpt-n5-mock-test`) làm theo đúng khuôn này:
+- `apps/<cấp>/config.json` + `icons/` + `store/`; `lib/app_config.dart` đọc cấu hình qua `--dart-define-from-file`.
+- CI tự lấy danh sách cấp từ `apps/*/config.json` (thêm cấp không phải sửa `ci.yml`); `release.yml` chọn app bằng tag `<cấp>-v<VERSION>` hoặc ô `app`.
+- Fastlane và script (`configure_native.py`, `app_info.py`, `write_export_options.py`, `check_metadata.py`) dùng chung cho mọi cấp, đọc `apps/$APP/config.json`.
+- GitHub Secrets/Variables cùng tên và cùng giá trị ở mọi repo ManabiHub nhưng phải dán lại cho từng repo (repo cá nhân không có org secrets).
+- Bundle ID: Kanji `com.manabihub.kanji<cấp>`, Thi Thử `com.manabihub.jlpt<cấp>mock`; profile iOS `Kanji <CẤP> AppStore` / `JLPT <CẤP> Mock AppStore`.
+- Mỗi lần đổi quy trình: cập nhật `RELEASE.md` của repo + skill này + skill `manabihub-mock-test` (bản `.agents` và bản trên claude.ai).
+
 ## Bố cục D:\100.JLPT (đọc trước)
 ```
 README.md                 bản đồ tổng

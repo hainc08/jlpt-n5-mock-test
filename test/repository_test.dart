@@ -12,9 +12,11 @@ class FakeServer {
   final Map<String, String> files = {};
   bool offline = false;
   int requests = 0;
+  final List<Uri> urls = [];
 
   http.Client get client => MockClient((req) async {
         requests++;
+        urls.add(req.url);
         if (offline) throw const SocketException('offline');
         final name = req.url.pathSegments.last;
         final body = files[name];
@@ -117,5 +119,61 @@ void main() {
     final repo = await makeRepo();
     expect(await repo.sync(), -1);
     expect(repo.exams.length, 2);
+  });
+
+  group('cài đặt nguồn đề', () {
+    test('chuẩn hoá địa chỉ: thêm / cuối, bỏ query, từ chối địa chỉ sai', () {
+      expect(ExamRepository.normalizeBase(' https://a.test/exams/n5 '), 'https://a.test/exams/n5/');
+      expect(ExamRepository.normalizeBase('https://a.test/x/?v=1#top'), 'https://a.test/x/');
+      expect(ExamRepository.normalizeBase('ftp://a.test/x/'), isNull);
+      expect(ExamRepository.normalizeBase('khong-phai-url'), isNull);
+      expect(ExamRepository.normalizeBase(''), isNull);
+    });
+
+    test('đổi nguồn → sync tải từ địa chỉ mới, lưu lại sau khi mở lại app', () async {
+      server.setIndex(['n5-01.json']);
+      final repo = await makeRepo();
+      expect(repo.usesCustomBase, isFalse);
+      await repo.sync();
+      expect(server.urls.last.host, 'example.test');
+
+      expect(await repo.setRemoteBase('https://khac.test/de/n5'), isTrue);
+      expect(repo.remoteBase, 'https://khac.test/de/n5/');
+      expect(repo.usesCustomBase, isTrue);
+      expect(repo.lastSync, isNull, reason: 'phải sync lại ngay từ nguồn mới');
+      await repo.sync();
+      expect(server.urls.last.host, 'khac.test');
+      expect(server.urls.last.path, startsWith('/de/n5/'));
+
+      final again = await makeRepo();
+      expect(again.remoteBase, 'https://khac.test/de/n5/');
+    });
+
+    test('địa chỉ sai không làm đổi nguồn; "Mặc định" khôi phục', () async {
+      final repo = await makeRepo();
+      expect(await repo.setRemoteBase('abc'), isFalse);
+      expect(repo.usesCustomBase, isFalse);
+
+      await repo.setRemoteBase('https://khac.test/de/n5/');
+      expect(repo.usesCustomBase, isTrue);
+      await repo.setRemoteBase(null);
+      expect(repo.usesCustomBase, isFalse);
+      expect(repo.remoteBase, 'https://example.test/exams/n5/');
+    });
+
+    test('xoá đề đã tải → chỉ còn đề đóng sẵn', () async {
+      server.files['n5-03.json'] = examJson('n5-03', 'Đề chuẩn số 03');
+      server.setIndex(['n5-01.json', 'n5-02.json', 'n5-03.json']);
+      final repo = await makeRepo();
+      await repo.sync();
+      expect(repo.exams.map((e) => e.id), contains('n5-03'));
+
+      await repo.clearDownloaded();
+      expect(repo.exams.map((e) => e.id), ['n5-01', 'n5-02']);
+      expect(repo.lastSync, isNull);
+      server.offline = true;
+      final again = await makeRepo();
+      expect(again.exams.map((e) => e.id), ['n5-01', 'n5-02']);
+    });
   });
 }
